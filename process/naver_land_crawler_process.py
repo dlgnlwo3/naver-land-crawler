@@ -48,9 +48,8 @@ class NaverLandCrawlerProcess:
     def work_start(self):
         try:
             city_dict: dict = getattr(CityEnum, self.guiDto.city).value
-
             print(city_dict)
-
+            city_cortarName = city_dict["cortarName"]
             city_cortarNo = city_dict["cortarNo"]
 
             APIBot = NaverLandAPI()
@@ -61,8 +60,13 @@ class NaverLandCrawlerProcess:
             print(dvsn_list)
 
             for i, dvsn in enumerate(dvsn_list):
-                cortarName = dvsn["cortarName"]
-                print(f"{i} {cortarName}")
+                dvsn_cortarNo = dvsn["cortarNo"]
+                dvsn_cortarName = dvsn["cortarName"]
+                dvsn_lat = dvsn["centerLat"]
+                dvsn_lon = dvsn["centerLon"]
+
+                print(f"{i} {dvsn_cortarNo} {city_cortarName} {dvsn_cortarName}")
+                print()
 
         except Exception as e:
             print(e)

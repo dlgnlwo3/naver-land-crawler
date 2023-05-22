@@ -130,8 +130,8 @@ class NaverLandAPI:
 
 
 if __name__ == "__main__":
-    # search_keyword -> xx도 yy시 -> 시의 정보가 필요함
-    city = "경기도"
+    # search_keyword -> city dvsn
+    search_keyword = "경기도 구리시"
 
     city_dict = CityEnum.경기도.value
 
@@ -143,7 +143,8 @@ if __name__ == "__main__":
 
     data = ""
 
-    # 원하는 지역명을 검색해서 해당 지역의 좌표를 얻는 방법
+    # data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(cortarNo))
+
     data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(cortarNo))
 
     print(type(data))
