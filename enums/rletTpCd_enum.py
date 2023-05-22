@@ -7,7 +7,7 @@ if 1 == 1:
 from enum import Enum
 
 
-class rletTpCd(Enum):
+class rletTpCdEnum(Enum):
     아파트 = "APT"
     오피스텔 = "OPST"
     빌라 = "VL"
@@ -30,7 +30,7 @@ class rletTpCd(Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda c: c.name, rletTpCd))
+        return list(map(lambda c: c.name, rletTpCdEnum))
 
 
-print(rletTpCd.list())
+print(rletTpCdEnum.list())

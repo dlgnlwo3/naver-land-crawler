@@ -82,7 +82,7 @@ class MainUI(QWidget):
 
         # 탭 추가
         tabs = QTabWidget()
-        tabs.addTab(self.naver_land_crawler_tab, "샘플탭1")
+        tabs.addTab(self.naver_land_crawler_tab, "매물검색")
 
         vbox = QVBoxLayout()
 
@@ -91,7 +91,7 @@ class MainUI(QWidget):
 
         # 앱 기본 설정
         self.setWindowTitle(f"sample v0.0.1")
-        self.resize(600, 800)
+        self.resize(700, 800)
         self.center()
         self.show()
 

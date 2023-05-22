@@ -7,7 +7,7 @@ if 1 == 1:
 from enum import Enum
 
 
-class City(Enum):
+class CityEnum(Enum):
     서울시 = {
         "cortarNo": "1100000000",
         "centerLat": 37.566427,
@@ -146,7 +146,7 @@ class City(Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda c: c.name, City))
+        return list(map(lambda c: c.name, CityEnum))
 
 
-print(City.list())
+print(CityEnum.list())

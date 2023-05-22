@@ -15,6 +15,11 @@ from common.utils import *
 from configs.coupang_review_crawler_config import CoupangReviewCrawlerConfig
 from configs.coupang_review_crawler_config import CoupangReviewCrawlerData
 
+from enums.city_enum import CityEnum
+from enums.tradTpCd_enum import tradTpCdEnum
+from enums.rletTpCd_enum import rletTpCdEnum
+
+
 import pandas as pd
 
 
@@ -39,6 +44,9 @@ class NaverLandCrawlerTab(QWidget):
     # 시작 클릭
     def naver_land_crawler_start_button_clicked(self):
         guiDto = GUIDto()
+        guiDto.city = self.city_combobox.currentText()
+        guiDto.tradTpCd = self.tradTpCd_combobox.currentText()
+        guiDto.rletTpCd = self.rletTpCd_combobox.currentText()
 
         self.naver_land_crawler_thread = NaverLandCrawlerThread()
         self.naver_land_crawler_thread.log_msg.connect(self.log_append)
@@ -66,71 +74,54 @@ class NaverLandCrawlerTab(QWidget):
         self.naver_land_crawler_stop_button.setDisabled(True)
         print(f"thread_is_running: {self.naver_land_crawler_thread.isRunning()}")
 
-    def naver_land_crawler_all_checkbox_statechanged(self):
-        print(self.naver_land_crawler_all_checkbox.isChecked())
-
-        if self.naver_land_crawler_all_checkbox.isChecked():
-            self.naver_land_crawler_count.setDisabled(True)
-        else:
-            self.naver_land_crawler_count.setDisabled(False)
+    def open_save_path_button_clicked(self):
+        os.startfile(self.config.today_output_folder)
 
     # 메인 UI
     def initUI(self):
-        # 계정 정보
-        account_file_groupbox = QGroupBox("계정 정보")
-        self.account_file = QLineEdit()
-        self.account_file.setDisabled(True)
-        self.account_file_select_button = QPushButton("파일 선택")
+        # 지역
+        city_groupbox = QGroupBox("지역 선택")
+        self.city_combobox = QComboBox()
+        self.city_combobox.addItems(CityEnum.list())
 
-        account_file_inner_layout = QHBoxLayout()
-        account_file_inner_layout.addWidget(self.account_file)
-        account_file_inner_layout.addWidget(self.account_file_select_button)
-        account_file_groupbox.setLayout(account_file_inner_layout)
+        city_inner_layout = QHBoxLayout()
+        city_inner_layout.addWidget(self.city_combobox)
+        city_groupbox.setLayout(city_inner_layout)
 
-        # 전체 삭제
-        naver_land_crawler_all_groupbox = QGroupBox("전체 삭제")
-        self.naver_land_crawler_all_checkbox = QCheckBox("전체 삭제")
+        # 거래유형
+        tradTpCd_groupbox = QGroupBox("거래유형")
+        self.tradTpCd_combobox = QComboBox()
+        self.tradTpCd_combobox.addItems(tradTpCdEnum.list())
 
-        self.naver_land_crawler_all_checkbox.stateChanged.connect(self.naver_land_crawler_all_checkbox_statechanged)
+        tradTpCd_inner_layout = QHBoxLayout()
+        tradTpCd_inner_layout.addWidget(self.tradTpCd_combobox)
+        tradTpCd_groupbox.setLayout(tradTpCd_inner_layout)
 
-        naver_land_crawler_all_inner_layout = QHBoxLayout()
-        naver_land_crawler_all_inner_layout.addWidget(self.naver_land_crawler_all_checkbox)
-        naver_land_crawler_all_groupbox.setLayout(naver_land_crawler_all_inner_layout)
+        # 매물유형
+        rletTpCd_groupbox = QGroupBox("매물유형")
+        self.rletTpCd_combobox = QComboBox()
+        self.rletTpCd_combobox.addItems(rletTpCdEnum.list())
 
-        # 삭제 횟수
-        naver_land_crawler_count_groupbox = QGroupBox("삭제 횟수")
-        self.naver_land_crawler_count = QLineEdit()
-        self.naver_land_crawler_count.setValidator(QIntValidator(1, 999999))
-
-        naver_land_crawler_count_inner_layout = QHBoxLayout()
-        naver_land_crawler_count_inner_layout.addWidget(self.naver_land_crawler_count)
-        naver_land_crawler_count_groupbox.setLayout(naver_land_crawler_count_inner_layout)
+        rletTpCd_inner_layout = QHBoxLayout()
+        rletTpCd_inner_layout.addWidget(self.rletTpCd_combobox)
+        rletTpCd_groupbox.setLayout(rletTpCd_inner_layout)
 
         # 시작 중지
         start_stop_groupbox = QGroupBox("시작 중지")
+        self.open_save_path_button = QPushButton("저장 경로 열기")
         self.naver_land_crawler_start_button = QPushButton("시작")
         self.naver_land_crawler_stop_button = QPushButton("중지")
         self.naver_land_crawler_stop_button.setDisabled(True)
 
+        self.open_save_path_button.clicked.connect(self.open_save_path_button_clicked)
         self.naver_land_crawler_start_button.clicked.connect(self.naver_land_crawler_start_button_clicked)
         self.naver_land_crawler_stop_button.clicked.connect(self.naver_land_crawler_stop_button_clicked)
 
         start_stop_inner_layout = QHBoxLayout()
+        start_stop_inner_layout.addWidget(self.open_save_path_button)
         start_stop_inner_layout.addWidget(self.naver_land_crawler_start_button)
         start_stop_inner_layout.addWidget(self.naver_land_crawler_stop_button)
         start_stop_groupbox.setLayout(start_stop_inner_layout)
-
-        # 제목 내용
-        review_content_groupbox = QGroupBox("리뷰")
-        self.review_title = QLineEdit()
-        self.review_title.setPlaceholderText("제목")
-        self.review_content = QPlainTextEdit()
-        self.review_content.setPlaceholderText("내용")
-
-        review_content_inner_layout = QVBoxLayout()
-        review_content_inner_layout.addWidget(self.review_title)
-        review_content_inner_layout.addWidget(self.review_content)
-        review_content_groupbox.setLayout(review_content_inner_layout)
 
         # 로그 그룹박스
         log_groupbox = QGroupBox("로그")
@@ -142,16 +133,15 @@ class NaverLandCrawlerTab(QWidget):
 
         # 레이아웃 배치
         top_layout = QHBoxLayout()
-        top_layout.addWidget(account_file_groupbox)
+        top_layout.addWidget(city_groupbox)
 
         mid_layout = QHBoxLayout()
-        mid_layout.addStretch(4)
-        mid_layout.addWidget(naver_land_crawler_all_groupbox, 2)
-        mid_layout.addWidget(naver_land_crawler_count_groupbox, 3)
-        mid_layout.addWidget(start_stop_groupbox, 4)
+        mid_layout.addWidget(tradTpCd_groupbox)
+        mid_layout.addWidget(rletTpCd_groupbox)
 
         bottom_layout = QHBoxLayout()
-        # bottom_layout.addWidget(review_content_groupbox)
+        bottom_layout.addStretch(4)
+        bottom_layout.addWidget(start_stop_groupbox, 4)
 
         log_layout = QVBoxLayout()
         log_layout.addWidget(log_groupbox)

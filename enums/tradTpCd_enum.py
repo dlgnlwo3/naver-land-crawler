@@ -7,7 +7,7 @@ if 1 == 1:
 from enum import Enum
 
 
-class tradTpCd(Enum):
+class tradTpCdEnum(Enum):
     매매 = "A1"
     전세 = "B1"
     월세 = "B2"
@@ -15,7 +15,7 @@ class tradTpCd(Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda c: c.name, tradTpCd))
+        return list(map(lambda c: c.name, tradTpCdEnum))
 
 
-print(tradTpCd.list())
+print(tradTpCdEnum.list())

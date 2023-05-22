@@ -7,65 +7,35 @@ if 1 == 1:
 
 class GUIDto:
     def __init__(self):
-        self.__account_file = ""
-
-        self.__user_id = ""
-        self.__user_pw = ""
-        self.__keyword = ""
-
-        self.__delete_count = ""
-        self.__delete_all = bool
+        self.__city = ""
+        self.__tradTpCd = ""
+        self.__rletTpCd = ""
 
     @property
-    def account_file(self):  # getter
-        return self.__account_file
+    def city(self):  # getter
+        return self.__city
 
-    @account_file.setter
-    def account_file(self, value):  # setter
-        self.__account_file = value
-
-    @property
-    def user_id(self):  # getter
-        return self.__user_id
-
-    @user_id.setter
-    def user_id(self, value):  # setter
-        self.__user_id = value
+    @city.setter
+    def city(self, value):  # setter
+        self.__city = value
 
     @property
-    def user_pw(self):  # getter
-        return self.__user_pw
+    def tradTpCd(self):  # getter
+        return self.__tradTpCd
 
-    @user_pw.setter
-    def user_pw(self, value):  # setter
-        self.__user_pw = value
-
-    @property
-    def keyword(self):  # getter
-        return self.__keyword
-
-    @keyword.setter
-    def keyword(self, value):  # setter
-        self.__keyword = value
+    @tradTpCd.setter
+    def tradTpCd(self, value):  # setter
+        self.__tradTpCd = value
 
     @property
-    def delete_count(self):  # getter
-        return self.__delete_count
+    def rletTpCd(self):  # getter
+        return self.__rletTpCd
 
-    @delete_count.setter
-    def delete_count(self, value):  # setter
-        self.__delete_count = value
-
-    @property
-    def delete_all(self):  # getter
-        return self.__delete_all
-
-    @delete_all.setter
-    def delete_all(self, value: bool):  # setter
-        self.__delete_all = value
+    @rletTpCd.setter
+    def rletTpCd(self, value):  # setter
+        self.__rletTpCd = value
 
     def to_print(self):
-        print("account_file: ", self.account_file)
-        print("keyword: ", self.keyword)
-        print("delete_count: ", self.delete_count)
-        print("delete_all: ", self.delete_all)
+        print("city: ", self.city)
+        print("tradTpCd: ", self.tradTpCd)
+        print("rletTpCd: ", self.rletTpCd)
