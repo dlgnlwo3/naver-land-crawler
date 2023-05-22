@@ -29,6 +29,7 @@ import pandas as pd
 
 from enums.city_enum import CityEnum
 from api.naver_land_api import NaverLandAPI
+import asyncio
 
 
 class NaverLandCrawlerProcess:
@@ -50,14 +51,18 @@ class NaverLandCrawlerProcess:
 
             print(city_dict)
 
-            API = NaverLandAPI()
+            city_cortarNo = city_dict["cortarNo"]
+
+            APIBot = NaverLandAPI()
 
             # 시/군/구 리스트
-            dvsn_list = API.get_dvsn_list_from_cortarNo()
+            dvsn_list = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
 
             print(dvsn_list)
 
-            print()
+            for i, dvsn in enumerate(dvsn_list):
+                cortarName = dvsn["cortarName"]
+                print(f"{i} {cortarName}")
 
         except Exception as e:
             print(e)
