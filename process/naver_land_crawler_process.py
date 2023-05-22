@@ -27,7 +27,8 @@ import time
 
 import pandas as pd
 
-# import pandas as pd
+from enums.city_enum import CityEnum
+from api.naver_land_api import NaverLandAPI
 
 
 class NaverLandCrawlerProcess:
@@ -44,10 +45,19 @@ class NaverLandCrawlerProcess:
 
     # 전체작업 시작
     def work_start(self):
-        print(f"process: work_start")
-
         try:
-            print(f"process run")
+            city_dict: dict = getattr(CityEnum, self.guiDto.city).value
+
+            print(city_dict)
+
+            API = NaverLandAPI()
+
+            # 시/군/구 리스트
+            dvsn_list = API.get_dvsn_list_from_cortarNo()
+
+            print(dvsn_list)
+
+            print()
 
         except Exception as e:
             print(e)

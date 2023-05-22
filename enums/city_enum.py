@@ -150,4 +150,6 @@ class CityEnum(Enum):
 
 
 if __name__ == "__main__":
-    print(CityEnum.list())
+    my_city = "경기도"
+    city_dict = getattr(CityEnum, my_city)
+    print(city_dict.value)
