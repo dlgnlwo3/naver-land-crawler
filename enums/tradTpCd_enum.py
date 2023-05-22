@@ -18,4 +18,5 @@ class tradTpCdEnum(Enum):
         return list(map(lambda c: c.name, tradTpCdEnum))
 
 
-print(tradTpCdEnum.list())
+if __name__ == "__main__":
+    print(tradTpCdEnum.list())

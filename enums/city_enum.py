@@ -149,4 +149,5 @@ class CityEnum(Enum):
         return list(map(lambda c: c.name, CityEnum))
 
 
-print(CityEnum.list())
+if __name__ == "__main__":
+    print(CityEnum.list())

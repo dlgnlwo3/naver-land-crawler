@@ -33,4 +33,5 @@ class rletTpCdEnum(Enum):
         return list(map(lambda c: c.name, rletTpCdEnum))
 
 
-print(rletTpCdEnum.list())
+if __name__ == "__main__":
+    print(rletTpCdEnum.list())

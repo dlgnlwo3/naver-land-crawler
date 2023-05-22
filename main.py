@@ -90,7 +90,7 @@ class MainUI(QWidget):
         self.setLayout(vbox)
 
         # 앱 기본 설정
-        self.setWindowTitle(f"sample v0.0.1")
+        self.setWindowTitle(f"네이버 부동산 v0.0.1")
         self.resize(700, 800)
         self.center()
         self.show()
