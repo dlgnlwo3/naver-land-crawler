@@ -174,16 +174,19 @@ class NaverLandAPI:
         wait=wait_fixed(3),  # 3초 대기
         stop=stop_after_attempt(2),  # 2번 재시도
     )
-    async def get_articleList_from_cluster_info(self, cortarNo, lat, lon, z, rletTpCd, tradTpCd):
-        articleList = []
-        auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}"
+    async def get_article_detail_info_from_cluster_info(self, atclNo):
+        article_info = {}
+        auth_url = f"https://m.land.naver.com/article/info/{atclNo}?newMobile"
         response = requests.get(auth_url, headers=self.headers)
         soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-        cluster_dict = json.loads(str(soup))
+        script = soup.find("script", text=re.compile(r"window.App"))
+        script_content = script.string
+        app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
+        article_detail_dict = json.loads(app_value)
 
         # 200
         if response.status_code == HTTPStatus.OK:
-            articleList = cluster_dict["data"]["ARTICLE"]
+            article_info = article_detail_dict["state"]
             print("성공")
 
         # 400
@@ -210,7 +213,7 @@ class NaverLandAPI:
         else:
             print("알 수 없는 오류")
 
-        return articleList
+        return article_info
 
 
 if __name__ == "__main__":
@@ -231,15 +234,15 @@ if __name__ == "__main__":
     rletTpCd = "VL"
     tradTpCd = "A1"
 
+    APT_atclNo = "2321571037"
+    VL_atclNo = "2317652285"
+    HANOK_atclNo = "2320930153"
+
     APIBot = NaverLandAPI()
 
     data = ""
 
-    data = asyncio.run(
-        APIBot.get_clusterList_from_cortar_info_and_type_code(
-            dvsn_cortarNo, dvsn_lat, dvsn_lon, dvsn_z, rletTpCd, tradTpCd
-        )
-    )
+    data = asyncio.run(APIBot.get_article_detail_info_from_cluster_info(HANOK_atclNo))
 
     # data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
 

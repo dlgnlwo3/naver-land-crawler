@@ -1,1 +1,0 @@
-"\n            lat: '37.59309',\n            lon: '127.160938',\n            z: '14',\n            cortarNo: '4131010500',\n            cortarNm: '수택동',\n            rletTpCds: '*',\n            tradTpCds: 'A1:B1:B2'\n        "
