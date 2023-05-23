@@ -189,41 +189,41 @@ class NaverLandAPI:
         articleList = []
         for i in range(1, cluster_max_page + 1):
             auth_url = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={i}"
-            print(auth_url)
-            print()
+            response = requests.get(auth_url, headers=self.headers)
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            cluster_dict = json.loads(str(soup))
 
-        response = requests.get(auth_url, headers=self.headers)
-        soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-        cluster_dict = json.loads(str(soup))
+            article_dict_list = cluster_dict["body"]
+            for i, article_dict in enumerate(article_dict_list):
+                articleList.append(article_dict)
 
-        # 200
-        if response.status_code == HTTPStatus.OK:
-            clusterList = cluster_dict["data"]["ARTICLE"]
-            print("성공")
+            # 200
+            if response.status_code == HTTPStatus.OK:
+                print("성공")
 
-        # 400
-        elif response.status_code == HTTPStatus.BAD_REQUEST:
-            print("입력값이 유효하지 않음")
+            # 400
+            elif response.status_code == HTTPStatus.BAD_REQUEST:
+                print("입력값이 유효하지 않음")
 
-        # 404
-        elif response.status_code == HTTPStatus.NOT_FOUND:
-            print("Request-URI에 일치하는 건을 발견하지 못함")
+            # 404
+            elif response.status_code == HTTPStatus.NOT_FOUND:
+                print("Request-URI에 일치하는 건을 발견하지 못함")
 
-        # 405
-        elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
-            print("허가되지 않은 메소드 사용")
+            # 405
+            elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
+                print("허가되지 않은 메소드 사용")
 
-        # 500
-        elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
-            print("서버 내부의 에러")
+            # 500
+            elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
+                print("서버 내부의 에러")
 
-        # 503
-        elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
-            print("서버 과부하로 인한 사용 불가")
+            # 503
+            elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
+                print("서버 과부하로 인한 사용 불가")
 
-        # 그 외의 경우
-        else:
-            print("알 수 없는 오류")
+            # 그 외의 경우
+            else:
+                print("알 수 없는 오류")
 
         return articleList
 

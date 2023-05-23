@@ -115,9 +115,9 @@ class NaverLandCrawlerProcess:
                         )
                     )
 
-                    remaked_URL2 = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={cluster_max_page}"
-                    print(remaked_URL2)
-                    print()
+                    for k, article in enumerate(articleList):
+                        print(article)
+                        print()
 
                 print()
 
