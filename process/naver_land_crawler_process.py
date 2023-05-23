@@ -28,6 +28,8 @@ import time
 import pandas as pd
 
 from enums.city_enum import CityEnum
+from enums.rletTpCd_enum import rletTpCdEnum
+from enums.tradTpCd_enum import tradTpCdEnum
 from api.naver_land_api import NaverLandAPI
 import asyncio
 
@@ -48,6 +50,8 @@ class NaverLandCrawlerProcess:
     def work_start(self):
         try:
             city_dict: dict = getattr(CityEnum, self.guiDto.city).value
+            rletTpCd = getattr(rletTpCdEnum, self.guiDto.rletTpCd).value
+            tradTpCd = getattr(tradTpCdEnum, self.guiDto.tradTpCd).value
             print(city_dict)
             city_cortarName = city_dict["cortarName"]
             city_cortarNo = city_dict["cortarNo"]
@@ -65,7 +69,20 @@ class NaverLandCrawlerProcess:
                 dvsn_lat = dvsn["centerLat"]
                 dvsn_lon = dvsn["centerLon"]
 
-                print(f"{i} {dvsn_cortarNo} {city_cortarName} {dvsn_cortarName}")
+                print(f"{i} {dvsn_cortarNo} {city_cortarName} {dvsn_cortarName} {dvsn_lat} {dvsn_lon}")
+                self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {self.guiDto.tradTpCd} {self.guiDto.rletTpCd}")
+
+                filter_dict = asyncio.run(
+                    APIBot.get_filter_dict_from_search_keyword(f"{city_cortarName} {dvsn_cortarName}")
+                )
+                dvsn_z = filter_dict["z"]
+                print(f"{dvsn_cortarNo} {dvsn_lat} {dvsn_lon} {dvsn_z} {rletTpCd} {tradTpCd}")
+
+                clusterList = asyncio.run(
+                    APIBot.get_clusterList_from_cortar_info_and_type_code(
+                        dvsn_cortarNo, dvsn_lat, dvsn_lon, dvsn_z, rletTpCd, tradTpCd
+                    )
+                )
                 print()
 
         except Exception as e:
