@@ -25,6 +25,8 @@ from selenium.webdriver import ActionChains
 from datetime import timedelta, datetime
 import time
 
+import math
+
 import pandas as pd
 
 from enums.city_enum import CityEnum
@@ -45,6 +47,10 @@ class NaverLandCrawlerProcess:
 
     def setLogger(self, log_msg):
         self.log_msg = log_msg
+
+    def get_cluster_max_page(self, cluster_count):
+        cluster_max_page = math.ceil(cluster_count / 20)
+        return cluster_max_page
 
     # 전체작업 시작
     def work_start(self):
@@ -91,8 +97,25 @@ class NaverLandCrawlerProcess:
                     cluster_z = cluster["z"]
                     cluster_lat = cluster["lat"]
                     cluster_lon = cluster["lon"]
-                    print(f"{cluster_lgeo} {cluster_count}")
-                    remaked_URL2 = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={1}"
+                    cluster_max_page = self.get_cluster_max_page(cluster_count)
+                    print(
+                        f"{cluster_lgeo} {cluster_z} {cluster_lat} {cluster_lon} {cluster_count} {cluster_max_page} {dvsn_cortarNo} {rletTpCd} {tradTpCd}"
+                    )
+                    articleList = asyncio.run(
+                        APIBot.get_articleList_from_cluster_info(
+                            cluster_lgeo,
+                            cluster_z,
+                            cluster_lat,
+                            cluster_lon,
+                            cluster_count,
+                            cluster_max_page,
+                            dvsn_cortarNo,
+                            rletTpCd,
+                            tradTpCd,
+                        )
+                    )
+
+                    remaked_URL2 = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={cluster_max_page}"
                     print(remaked_URL2)
                     print()
 

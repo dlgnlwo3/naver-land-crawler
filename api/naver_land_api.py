@@ -174,7 +174,64 @@ class NaverLandAPI:
         wait=wait_fixed(3),  # 3초 대기
         stop=stop_after_attempt(2),  # 2번 재시도
     )
-    async def get_article_detail_info_from_cluster_info(self, atclNo):
+    async def get_articleList_from_cluster_info(
+        self,
+        cluster_lgeo,
+        cluster_z,
+        cluster_lat,
+        cluster_lon,
+        cluster_count,
+        cluster_max_page,
+        dvsn_cortarNo,
+        rletTpCd,
+        tradTpCd,
+    ):
+        articleList = []
+        for i in range(1, cluster_max_page + 1):
+            auth_url = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={i}"
+            print(auth_url)
+            print()
+
+        response = requests.get(auth_url, headers=self.headers)
+        soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+        cluster_dict = json.loads(str(soup))
+
+        # 200
+        if response.status_code == HTTPStatus.OK:
+            clusterList = cluster_dict["data"]["ARTICLE"]
+            print("성공")
+
+        # 400
+        elif response.status_code == HTTPStatus.BAD_REQUEST:
+            print("입력값이 유효하지 않음")
+
+        # 404
+        elif response.status_code == HTTPStatus.NOT_FOUND:
+            print("Request-URI에 일치하는 건을 발견하지 못함")
+
+        # 405
+        elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
+            print("허가되지 않은 메소드 사용")
+
+        # 500
+        elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
+            print("서버 내부의 에러")
+
+        # 503
+        elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
+            print("서버 과부하로 인한 사용 불가")
+
+        # 그 외의 경우
+        else:
+            print("알 수 없는 오류")
+
+        return articleList
+
+    @retry(
+        wait=wait_fixed(3),  # 3초 대기
+        stop=stop_after_attempt(2),  # 2번 재시도
+    )
+    async def get_article_detail_info_from_atclNo(self, atclNo):
         article_info = {}
         auth_url = f"https://m.land.naver.com/article/info/{atclNo}?newMobile"
         response = requests.get(auth_url, headers=self.headers)
@@ -242,7 +299,7 @@ if __name__ == "__main__":
 
     data = ""
 
-    data = asyncio.run(APIBot.get_article_detail_info_from_cluster_info(HANOK_atclNo))
+    data = asyncio.run(APIBot.get_article_detail_info_from_atclNo(HANOK_atclNo))
 
     # data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
 
