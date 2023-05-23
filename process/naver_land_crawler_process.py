@@ -89,7 +89,6 @@ class NaverLandCrawlerProcess:
                         dvsn_cortarNo, dvsn_lat, dvsn_lon, dvsn_z, rletTpCd, tradTpCd
                     )
                 )
-                print()
 
                 for j, cluster in enumerate(clusterList):
                     cluster_lgeo = cluster["lgeo"]

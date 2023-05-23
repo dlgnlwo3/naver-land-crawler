@@ -32,7 +32,9 @@ class NaverLandAPI:
 
     def get_headers(self):
         self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.220 Whale/1.3.51.7 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6",
             "Referer": "https://m.land.naver.com/",
         }
 
@@ -44,20 +46,19 @@ class NaverLandAPI:
         filter_dict = {}
         auth_url = f"https://m.land.naver.com/search/result/{search_keyword}"
         response = requests.get(auth_url, headers=self.headers)
-        soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-        script = soup.find("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
-        script_content = script.string
-        filter_value = re.search(r"filter:\s*{([^}]+)}", script_content).group(1)
-        for match in re.finditer(r"(\w+):\s*\'?([^\',]+)\'?", filter_value):
-            key = match.group(1)
-            value = match.group(2)
-            filter_dict[key] = value
-
-        print(filter_dict)
 
         # 200
         if response.status_code == HTTPStatus.OK:
-            print("성공")
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            script = soup.find("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
+            script_content = script.string
+            filter_value = re.search(r"filter:\s*{([^}]+)}", script_content).group(1)
+            for match in re.finditer(r"(\w+):\s*\'?([^\',]+)\'?", filter_value):
+                key = match.group(1)
+                value = match.group(2)
+                filter_dict[key] = value
+
+            print(filter_dict)
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
@@ -93,14 +94,14 @@ class NaverLandAPI:
         dvsn_list = []
         auth_url = f"https://new.land.naver.com/api/regions/list?cortarNo={cortarNo}"
         response = requests.get(auth_url, headers=self.headers)
-        soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-        dvsn_dict = json.loads(str(soup))
-        print(dvsn_dict)
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            dvsn_dict = json.loads(str(soup))
+            print(dvsn_dict)
             dvsn_list = dvsn_dict["regionList"]
-            print("성공")
+            pass
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
@@ -136,13 +137,13 @@ class NaverLandAPI:
         clusterList = []
         auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}"
         response = requests.get(auth_url, headers=self.headers)
-        soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-        cluster_dict = json.loads(str(soup))
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            cluster_dict = json.loads(str(soup))
             clusterList = cluster_dict["data"]["ARTICLE"]
-            print("성공")
+            pass
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
@@ -190,40 +191,45 @@ class NaverLandAPI:
         for i in range(1, cluster_max_page + 1):
             auth_url = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={i}"
             response = requests.get(auth_url, headers=self.headers)
-            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-            cluster_dict = json.loads(str(soup))
-
-            article_dict_list = cluster_dict["body"]
-            for i, article_dict in enumerate(article_dict_list):
-                articleList.append(article_dict)
 
             # 200
             if response.status_code == HTTPStatus.OK:
-                print("성공")
+                soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+                cluster_dict = json.loads(str(soup))
+                article_dict_list = cluster_dict["body"]
+                for i, article_dict in enumerate(article_dict_list):
+                    articleList.append(article_dict)
+                pass
 
             # 400
             elif response.status_code == HTTPStatus.BAD_REQUEST:
                 print("입력값이 유효하지 않음")
+                break
 
             # 404
             elif response.status_code == HTTPStatus.NOT_FOUND:
                 print("Request-URI에 일치하는 건을 발견하지 못함")
+                break
 
             # 405
             elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
                 print("허가되지 않은 메소드 사용")
+                break
 
             # 500
             elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
                 print("서버 내부의 에러")
+                break
 
             # 503
             elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
                 print("서버 과부하로 인한 사용 불가")
+                break
 
             # 그 외의 경우
             else:
                 print("알 수 없는 오류")
+                break
 
         return articleList
 
@@ -235,16 +241,16 @@ class NaverLandAPI:
         article_info = {}
         auth_url = f"https://m.land.naver.com/article/info/{atclNo}?newMobile"
         response = requests.get(auth_url, headers=self.headers)
-        soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-        script = soup.find("script", text=re.compile(r"window.App"))
-        script_content = script.string
-        app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
-        article_detail_dict = json.loads(app_value)
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            script = soup.find("script", text=re.compile(r"window.App"))
+            script_content = script.string
+            app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
+            article_detail_dict = json.loads(app_value)
             article_info = article_detail_dict["state"]
-            print("성공")
+            pass
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
@@ -299,13 +305,13 @@ if __name__ == "__main__":
 
     data = ""
 
-    data = asyncio.run(APIBot.get_article_detail_info_from_atclNo(HANOK_atclNo))
+    # data = asyncio.run(APIBot.get_article_detail_info_from_atclNo(HANOK_atclNo))
 
     # data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
 
     # {'cortarNo': '4131000000', 'centerLat': 37.594409, 'centerLon': 127.129581, 'cortarName': '구리시', 'cortarType': 'dvsn'}
 
-    # data = asyncio.run(APIBot.get_filter_dict_from_search_keyword(f"{city_name} {dvsn_cortarName}"))
+    data = asyncio.run(APIBot.get_filter_dict_from_search_keyword(f"강원도 강릉시"))
 
     print(type(data))
 
