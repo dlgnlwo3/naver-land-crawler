@@ -49,6 +49,7 @@ class NaverLandAPI:
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            print("filter_dict 획득 성공")
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             script = soup.find("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
             script_content = script.string
@@ -97,6 +98,7 @@ class NaverLandAPI:
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            print("dvsn_list 획득 성공")
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             dvsn_dict = json.loads(str(soup))
             print(dvsn_dict)
@@ -140,6 +142,7 @@ class NaverLandAPI:
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            print("clusterList 획득 성공")
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             cluster_dict = json.loads(str(soup))
             clusterList = cluster_dict["data"]["ARTICLE"]
@@ -194,12 +197,13 @@ class NaverLandAPI:
 
             # 200
             if response.status_code == HTTPStatus.OK:
+                print("articleList 획득 성공")
                 soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
                 cluster_dict = json.loads(str(soup))
                 article_dict_list = cluster_dict["body"]
                 for i, article_dict in enumerate(article_dict_list):
                     articleList.append(article_dict)
-                pass
+                time.sleep(3)
 
             # 400
             elif response.status_code == HTTPStatus.BAD_REQUEST:
@@ -238,18 +242,19 @@ class NaverLandAPI:
         stop=stop_after_attempt(2),  # 2번 재시도
     )
     async def get_article_detail_info_from_atclNo(self, atclNo):
-        article_info = {}
+        article_detail_info = {}
         auth_url = f"https://m.land.naver.com/article/info/{atclNo}?newMobile"
         response = requests.get(auth_url, headers=self.headers)
 
         # 200
         if response.status_code == HTTPStatus.OK:
+            print("article_detail 획득 성공")
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             script = soup.find("script", text=re.compile(r"window.App"))
             script_content = script.string
             app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
             article_detail_dict = json.loads(app_value)
-            article_info = article_detail_dict["state"]
+            article_detail_info = article_detail_dict["state"]["article"]
             pass
 
         # 400
@@ -276,7 +281,7 @@ class NaverLandAPI:
         else:
             print("알 수 없는 오류")
 
-        return article_info
+        return article_detail_info
 
 
 if __name__ == "__main__":

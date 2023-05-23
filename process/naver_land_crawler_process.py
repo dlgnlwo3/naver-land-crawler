@@ -26,6 +26,8 @@ from datetime import timedelta, datetime
 import time
 
 import math
+import clipboard
+
 
 import pandas as pd
 
@@ -115,7 +117,10 @@ class NaverLandCrawlerProcess:
                     )
 
                     for k, article in enumerate(articleList):
-                        print(article)
+                        atclNo = article["atclNo"]
+                        article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
+                        print(article_detail_info)
+                        clipboard.copy(str(article_detail_info))
                         print()
 
                 print()
