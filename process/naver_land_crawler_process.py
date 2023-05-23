@@ -85,6 +85,19 @@ class NaverLandCrawlerProcess:
                 )
                 print()
 
+                for j, cluster in enumerate(clusterList):
+                    cluster_lgeo = cluster["lgeo"]
+                    cluster_count = cluster["count"]
+                    cluster_z = cluster["z"]
+                    cluster_lat = cluster["lat"]
+                    cluster_lon = cluster["lon"]
+                    print(f"{cluster_lgeo} {cluster_count}")
+                    remaked_URL2 = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={1}"
+                    print(remaked_URL2)
+                    print()
+
+                print()
+
         except Exception as e:
             print(e)
 
