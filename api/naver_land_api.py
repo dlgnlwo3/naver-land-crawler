@@ -78,6 +78,12 @@ class NaverLandAPI:
 
             print(filter_dict)
 
+        # 307
+        elif response.status_code == HTTPStatus.TEMPORARY_REDIRECT:
+            print(f"get_filter_dict_from_search_keyword {response.status_code}")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
+            raise Exception(response.status_code)
+
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             print("입력값이 유효하지 않음")
@@ -137,6 +143,12 @@ class NaverLandAPI:
             print(dvsn_dict)
             dvsn_list = dvsn_dict["regionList"]
 
+        # 307
+        elif response.status_code == HTTPStatus.TEMPORARY_REDIRECT:
+            print(f"get_dvsn_list_from_cortarNo {response.status_code}")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
+            raise Exception(response.status_code)
+
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             print("입력값이 유효하지 않음")
@@ -193,6 +205,12 @@ class NaverLandAPI:
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             cluster_dict = json.loads(str(soup))
             clusterList = cluster_dict["data"]["ARTICLE"]
+
+        # 307
+        elif response.status_code == HTTPStatus.TEMPORARY_REDIRECT:
+            print(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
+            raise Exception(response.status_code)
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
@@ -267,6 +285,12 @@ class NaverLandAPI:
                 for i, article_dict in enumerate(article_dict_list):
                     articleList.append(article_dict)
 
+            # 307
+            elif response.status_code == HTTPStatus.TEMPORARY_REDIRECT:
+                print(f"get_articleList_from_cluster_info {response.status_code}")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
+                raise Exception(response.status_code)
+
             # 400
             elif response.status_code == HTTPStatus.BAD_REQUEST:
                 print("입력값이 유효하지 않음")
@@ -335,6 +359,12 @@ class NaverLandAPI:
             app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
             article_detail_dict = json.loads(app_value)
             article_detail_info = article_detail_dict["state"]["article"]
+
+        # 307
+        elif response.status_code == HTTPStatus.TEMPORARY_REDIRECT:
+            print(f"get_article_detail_info_from_atclNo {response.status_code}")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
+            raise Exception(response.status_code)
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
