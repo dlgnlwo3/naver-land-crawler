@@ -4406,20 +4406,36 @@ if __name__ == "__main__":
     #     ArticleDetailInfoEnum.한옥주택.value,
     # ]
 
+    # dicts = [
+    #     ArticleDetailInfoEnum.건물.value["article"],
+    #     ArticleDetailInfoEnum.공장창고.value["article"],
+    #     ArticleDetailInfoEnum.단독다가구.value["article"],
+    #     ArticleDetailInfoEnum.빌라.value["article"],
+    #     ArticleDetailInfoEnum.사무실.value["article"],
+    #     ArticleDetailInfoEnum.상가.value["article"],
+    #     ArticleDetailInfoEnum.상가주택.value["article"],
+    #     ArticleDetailInfoEnum.아파트.value["article"],
+    #     ArticleDetailInfoEnum.오피스텔.value["article"],
+    #     ArticleDetailInfoEnum.전원주택.value["article"],
+    #     ArticleDetailInfoEnum.지식산업센터.value["article"],
+    #     ArticleDetailInfoEnum.토지.value["article"],
+    #     ArticleDetailInfoEnum.한옥주택.value["article"],
+    # ]
+
     dicts = [
-        ArticleDetailInfoEnum.건물.value["article"],
-        ArticleDetailInfoEnum.공장창고.value["article"],
-        ArticleDetailInfoEnum.단독다가구.value["article"],
-        ArticleDetailInfoEnum.빌라.value["article"],
-        ArticleDetailInfoEnum.사무실.value["article"],
-        ArticleDetailInfoEnum.상가.value["article"],
-        ArticleDetailInfoEnum.상가주택.value["article"],
-        ArticleDetailInfoEnum.아파트.value["article"],
-        ArticleDetailInfoEnum.오피스텔.value["article"],
-        ArticleDetailInfoEnum.전원주택.value["article"],
-        ArticleDetailInfoEnum.지식산업센터.value["article"],
-        ArticleDetailInfoEnum.토지.value["article"],
-        ArticleDetailInfoEnum.한옥주택.value["article"],
+        ArticleDetailInfoEnum.건물.value["addition"],
+        ArticleDetailInfoEnum.공장창고.value["addition"],
+        ArticleDetailInfoEnum.단독다가구.value["addition"],
+        ArticleDetailInfoEnum.빌라.value["addition"],
+        ArticleDetailInfoEnum.사무실.value["addition"],
+        ArticleDetailInfoEnum.상가.value["addition"],
+        ArticleDetailInfoEnum.상가주택.value["addition"],
+        ArticleDetailInfoEnum.아파트.value["addition"],
+        ArticleDetailInfoEnum.오피스텔.value["addition"],
+        ArticleDetailInfoEnum.전원주택.value["addition"],
+        ArticleDetailInfoEnum.지식산업센터.value["addition"],
+        ArticleDetailInfoEnum.토지.value["addition"],
+        ArticleDetailInfoEnum.한옥주택.value["addition"],
     ]
 
     keys = set(dicts[0].keys())
@@ -4464,7 +4480,7 @@ if __name__ == "__main__":
 # dealerTelInfo
 
 
-## article
+## article -> 게시글 기본 정보
 # articleNo -> 글 번호
 # articleName -> 글 제목
 # articleSubName -> ???
@@ -4512,3 +4528,44 @@ if __name__ == "__main__":
 # detailAddressYn -> 상세주소 존재 여부
 # isComplex -> ???
 # isOwnerTradeCompleted -> 집주인거래???
+
+
+## addition -> 게시글 추가 정보
+# articleNo -> 글 번호
+# articleName -> 글 이름
+# articleStatus -> 글 상태
+# realEstateTypeCode -> 매물유형 코드
+# realEstateTypeName -> 매물유형 이름
+# articleRealEstateTypeCode -> 부동산 유형 코드
+# articleRealEstateTypeName -> 부동산 유형 이름
+# tradeTypeCode -> 거래유형 코드
+# tradeTypeName -> 거래유형 이름
+# verificationTypeCode -> 검증유형 코드
+# floorInfo -> 층 정보
+# priceChangeState -> 가격변동 정보
+# isPriceModification -> 가격변조 정보
+# dealOrWarrantPrc -> 금액
+# area1 -> 공급면적
+# area2 -> 전용면적
+# articleConfirmYmd -> 게시 일자
+# siteImageCount -> 사이트 사진 개수
+# articleFeatureDesc -> 글 내용
+# tagList -> 태그 목록
+# sameAddrCnt -> 동일 주소 매물 수
+# sameAddrDirectCnt -> ???
+# sameAddrMaxPrc -> 최대 가격
+# sameAddrMinPrc -> 최소 가격
+# cpid -> 부동산 코드
+# cpName -> 부동산 이름
+# cpPcArticleLinkUseAtArticleTitleYn -> 부동산 링크 관련
+# cpPcArticleLinkUseAtCpNameYn -> 부동산 링크 관련
+# cpMobileArticleLinkUseAtArticleTitleYn -> 부동산 링크 관련
+# cpMobileArticleLinkUseAtCpNameYn -> 부동산 링크 관련
+# latitude -> 좌표
+# longitude -> 좌표
+# isLocationShow -> ???
+# realtorName -> 중개사무소 이름
+# tradeCheckedByOwner -> 주인확인 여부??
+# isDirectTrade -> 직접거래 여부
+# isInterest -> ???
+# isComplex -> ???
