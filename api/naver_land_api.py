@@ -194,6 +194,7 @@ class NaverLandAPI:
         for i in range(1, cluster_max_page + 1):
             auth_url = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={i}"
             response = requests.get(auth_url, headers=self.headers)
+            time.sleep(2)
 
             # 200
             if response.status_code == HTTPStatus.OK:
@@ -203,7 +204,6 @@ class NaverLandAPI:
                 article_dict_list = cluster_dict["body"]
                 for i, article_dict in enumerate(article_dict_list):
                     articleList.append(article_dict)
-                    time.sleep(2)
 
             # 400
             elif response.status_code == HTTPStatus.BAD_REQUEST:
