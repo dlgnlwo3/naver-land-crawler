@@ -344,9 +344,14 @@ class NaverLandCrawlerProcess:
                     cluster_lat = cluster["lat"]
                     cluster_lon = cluster["lon"]
                     cluster_max_page = self.get_cluster_max_page(cluster_count)
+
+                    if cluster_count <= 1:
+                        continue
+
                     print(
                         f"{cluster_lgeo} {cluster_z} {cluster_lat} {cluster_lon} {cluster_count} {cluster_max_page} {dvsn_cortarNo} {rletTpCd} {tradTpCd}"
                     )
+
                     articleList = asyncio.run(
                         APIBot.get_articleList_from_cluster_info(
                             cluster_lgeo,
@@ -361,26 +366,23 @@ class NaverLandCrawlerProcess:
                         )
                     )
 
-                    self.log_msg.emit(f"총 {len(articleList)}건 조회되었습니다.")
+                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
 
                     for k, article in enumerate(articleList):
                         atclNo = article["atclNo"]
                         article_detail_info = {}
                         article_dto = None
                         article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
-                        print(article_detail_info)
+                        # print(article_detail_info)
 
                         article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
 
                         if article_dto != None:
                             print(article_dto.detailAddress)
                             article_dtos.append(article_dto.get_dict())
-                        else:
-                            continue
 
                     self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
-
-                print()
+                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
 
         except Exception as e:
             print(e)
