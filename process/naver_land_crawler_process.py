@@ -5,7 +5,6 @@ if 1 == 1:
     sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 
-from selenium import webdriver
 from dtos.gui_dto import GUIDto
 from dtos.article_dto import ArticleDto
 
@@ -14,14 +13,7 @@ from configs.coupang_review_crawler_config import CoupangReviewCrawlerData
 
 
 from common.utils import global_log_append
-from common.chrome import get_chrome_driver_new
-from common.selenium_activities import close_new_tabs, alert_ok_try
 
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver import ActionChains
 
 from datetime import timedelta, datetime
 import time

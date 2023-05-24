@@ -10,7 +10,6 @@ if 1 == 1:
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
-from common.chrome import *
 from dtos.gui_dto import *
 from common.utils import global_log_append
 from tabs.naver_land_crawler_tab import NaverLandCrawlerTab
