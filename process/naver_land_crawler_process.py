@@ -38,12 +38,13 @@ from enums.tradTpCd_enum import tradTpCdEnum
 from api.naver_land_api import NaverLandAPI
 import asyncio
 
+from configs.program_config import ProgramConfig
+
 
 class NaverLandCrawlerProcess:
     def __init__(self):
-        self.default_wait = 10
-        # self.driver = get_chrome_driver_new(is_headless=False, is_secret=True, move_to_corner=False)
-        # self.driver.implicitly_wait(self.default_wait)
+        self.config = ProgramConfig()
+        self.today_output_folder = self.config.today_output_folder
 
     def setGuiDto(self, guiDto: GUIDto):
         self.guiDto = guiDto
@@ -117,10 +118,25 @@ class NaverLandCrawlerProcess:
         except Exception as e:
             print(str(e))
 
-        print(article_dto.to_print())
-        print()
-
         return article_dto
+
+    def article_dtos_to_excel(self, city_cortarName, dvsn_cortarName, article_dtos):
+        try:
+            article_excel = os.path.join(
+                self.today_output_folder,
+                f"{self.run_time}_{city_cortarName}_{dvsn_cortarName}_{self.guiDto.tradTpCd}_{self.guiDto.rletTpCd}.xlsx",
+            )
+
+            if os.path.isfile(article_excel):
+                with pd.ExcelWriter(article_excel, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
+                    pd.DataFrame.from_dict(article_dtos).to_excel(writer, index=False)
+
+            else:
+                with pd.ExcelWriter(article_excel, engine="openpyxl") as writer:
+                    pd.DataFrame.from_dict(article_dtos).to_excel(writer, index=False)
+
+        except Exception as e:
+            print(e)
 
     # 전체작업 시작
     def work_start(self):
@@ -140,6 +156,7 @@ class NaverLandCrawlerProcess:
             print(dvsn_list)
 
             for i, dvsn in enumerate(dvsn_list):
+                self.run_time = str(datetime.now())[0:-7].replace(":", "")
                 article_dtos = []
 
                 dvsn_cortarNo = dvsn["cortarNo"]
@@ -186,14 +203,24 @@ class NaverLandCrawlerProcess:
                         )
                     )
 
+                    self.log_msg.emit(f"총 {len(articleList)}건 조회되었습니다.")
+
                     for k, article in enumerate(articleList):
                         atclNo = article["atclNo"]
+                        article_detail_info = {}
+                        article_dto = None
                         article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
                         print(article_detail_info)
 
                         article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
 
-                        print()
+                        if article_dto != None:
+                            print(article_dto.detailAddress)
+                            article_dtos.append(article_dto.get_dict())
+                        else:
+                            continue
+
+                    self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
 
                 print()
 
