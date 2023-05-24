@@ -35,6 +35,8 @@ class GUIDto:
 
     @rletTpCd.setter
     def rletTpCd(self, value):  # setter
+        delimiter = ","
+        value = delimiter.join(value)
         self.__rletTpCd = value
 
     def to_print(self):

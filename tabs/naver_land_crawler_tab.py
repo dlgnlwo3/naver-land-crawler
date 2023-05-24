@@ -54,10 +54,21 @@ class NaverLandCrawlerTab(QWidget):
             return
         print(checked_tradTpCd)
 
+        checked_rletTpCd = []
+        print(self.rletTpCd_group)
+        rletTpCd_checkbox: QCheckBox
+        for rletTpCd_checkbox in self.rletTpCd_checkboxes_group:
+            if rletTpCd_checkbox.isChecked():
+                checked_rletTpCd.append(rletTpCd_checkbox.text())
+        if len(checked_rletTpCd) <= 0:
+            QMessageBox.information(self, "입력", f"매물 유형을 선택해주세요.")
+            return
+        print(checked_rletTpCd)
+
         guiDto = GUIDto()
         guiDto.city = self.city_combobox.currentText()
         guiDto.tradTpCd = checked_tradTpCd
-        guiDto.rletTpCd = self.rletTpCd_combobox.currentText()
+        guiDto.rletTpCd = checked_rletTpCd
 
         self.naver_land_crawler_thread = NaverLandCrawlerThread()
         self.naver_land_crawler_thread.log_msg.connect(self.log_append)
@@ -99,15 +110,6 @@ class NaverLandCrawlerTab(QWidget):
         city_inner_layout.addWidget(self.city_combobox)
         city_groupbox.setLayout(city_inner_layout)
 
-        # # 거래유형
-        # tradTpCd_groupbox = QGroupBox("거래유형")
-        # self.tradTpCd_combobox = QComboBox()
-        # self.tradTpCd_combobox.addItems(tradTpCdEnum.list())
-
-        # tradTpCd_inner_layout = QHBoxLayout()
-        # tradTpCd_inner_layout.addWidget(self.tradTpCd_combobox)
-        # tradTpCd_groupbox.setLayout(tradTpCd_inner_layout)
-
         # 거래유형
         tradTpCd_groupbox = QGroupBox("거래유형")
         self.tradTpCd_group = QButtonGroup()
@@ -133,11 +135,16 @@ class NaverLandCrawlerTab(QWidget):
 
         # 매물유형
         rletTpCd_groupbox = QGroupBox("매물유형")
-        self.rletTpCd_combobox = QComboBox()
-        self.rletTpCd_combobox.addItems(rletTpCdEnum.list())
+        self.rletTpCd_group = QButtonGroup()
+        self.rletTpCd_group.setExclusive(False)
 
         rletTpCd_inner_layout = QHBoxLayout()
-        rletTpCd_inner_layout.addWidget(self.rletTpCd_combobox)
+        self.rletTpCd_checkboxes_group = []
+        for rletTpCd in rletTpCdEnum.list():
+            rletTpCd_checkbox = QCheckBox(rletTpCd)
+            self.rletTpCd_checkboxes_group.append(rletTpCd_checkbox)
+            self.rletTpCd_group.addButton(rletTpCd_checkbox)
+            rletTpCd_inner_layout.addWidget(rletTpCd_checkbox)
         rletTpCd_groupbox.setLayout(rletTpCd_inner_layout)
 
         # 시작 중지
@@ -167,15 +174,15 @@ class NaverLandCrawlerTab(QWidget):
 
         # 레이아웃 배치
         top_layout = QHBoxLayout()
-        top_layout.addWidget(city_groupbox)
+        top_layout.addWidget(city_groupbox, 4)
+        top_layout.addStretch(6)
 
         mid_layout = QHBoxLayout()
-        mid_layout.addWidget(tradTpCd_groupbox, 6)
+        mid_layout.addWidget(tradTpCd_groupbox, 4)
         mid_layout.addStretch(4)
 
         sec_layout = QHBoxLayout()
-        sec_layout.addWidget(rletTpCd_groupbox, 6)
-        sec_layout.addStretch(2)
+        sec_layout.addWidget(rletTpCd_groupbox)
 
         bottom_layout = QHBoxLayout()
         bottom_layout.addStretch(4)

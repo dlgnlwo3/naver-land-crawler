@@ -60,6 +60,14 @@ class NaverLandCrawlerProcess:
         tradTpCd = tradTpCd.replace(",", ":")
         return tradTpCd
 
+    def convert_rletTpCd(self):
+        print(self.guiDto.rletTpCd)
+        rletTpCd = self.guiDto.rletTpCd
+        for enum in rletTpCdEnum.list():
+            rletTpCd = rletTpCd.replace(enum, getattr(rletTpCdEnum, enum).value)
+        rletTpCd = rletTpCd.replace(",", ":")
+        return rletTpCd
+
     def get_cluster_max_page(self, cluster_count):
         cluster_max_page = math.ceil(cluster_count / 20)
         return cluster_max_page
@@ -310,7 +318,7 @@ class NaverLandCrawlerProcess:
     def work_start(self):
         try:
             city_dict: dict = getattr(CityEnum, self.guiDto.city).value
-            rletTpCd = getattr(rletTpCdEnum, self.guiDto.rletTpCd).value
+            rletTpCd = self.convert_rletTpCd()
             tradTpCd = self.convert_tradTpCd()
             print(city_dict)
             city_cortarName = city_dict["cortarName"]
