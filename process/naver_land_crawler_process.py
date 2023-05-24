@@ -52,10 +52,19 @@ class NaverLandCrawlerProcess:
     def setLogger(self, log_msg):
         self.log_msg = log_msg
 
+    def convert_tradTpCd(self):
+        print(self.guiDto.tradTpCd)
+        tradTpCd = self.guiDto.tradTpCd
+        for enum in tradTpCdEnum.list():
+            tradTpCd = tradTpCd.replace(enum, getattr(tradTpCdEnum, enum).value)
+        tradTpCd = tradTpCd.replace(",", ":")
+        return tradTpCd
+
     def get_cluster_max_page(self, cluster_count):
         cluster_max_page = math.ceil(cluster_count / 20)
         return cluster_max_page
 
+    # article_dto 생성
     def article_dto_from_article_detail_info(self, article_detail_info: dict):
         article_dto = ArticleDto()
 
@@ -278,6 +287,7 @@ class NaverLandCrawlerProcess:
 
         return article_dto
 
+    # 엑셀 저장
     def article_dtos_to_excel(self, city_cortarName, dvsn_cortarName, article_dtos):
         try:
             article_excel = os.path.join(
@@ -301,7 +311,7 @@ class NaverLandCrawlerProcess:
         try:
             city_dict: dict = getattr(CityEnum, self.guiDto.city).value
             rletTpCd = getattr(rletTpCdEnum, self.guiDto.rletTpCd).value
-            tradTpCd = getattr(tradTpCdEnum, self.guiDto.tradTpCd).value
+            tradTpCd = self.convert_tradTpCd()
             print(city_dict)
             city_cortarName = city_dict["cortarName"]
             city_cortarNo = city_dict["cortarNo"]
@@ -373,7 +383,6 @@ class NaverLandCrawlerProcess:
                         article_detail_info = {}
                         article_dto = None
                         article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
-                        # print(article_detail_info)
 
                         article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
 

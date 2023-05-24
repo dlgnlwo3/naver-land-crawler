@@ -25,6 +25,8 @@ class GUIDto:
 
     @tradTpCd.setter
     def tradTpCd(self, value):  # setter
+        delimiter = ","
+        value = delimiter.join(value)
         self.__tradTpCd = value
 
     @property
