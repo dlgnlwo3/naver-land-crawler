@@ -4516,7 +4516,6 @@ if __name__ == "__main__":
 # isComplex -> ???
 # isOwnerTradeCompleted -> 집주인거래???
 
-
 ## addition -> 게시글 추가 정보
 # articleNo -> 글 번호
 # articleName -> 글 이름
@@ -4557,11 +4556,6 @@ if __name__ == "__main__":
 # isInterest -> ???
 # isComplex -> ???
 
-
-## facility -> 시설 관련 정보 -> 공통되는 내용이 이 두개밖에 없는데 그 마저도 기재되지 않은 물건이 많음
-# floorAreaRatio
-# buildingCoverageRatio
-
 ## price -> 각종 가격 정보 -> 거의 필요없는 정보
 # priceBySpace -> 평당 가격
 # rentPrice -> 월세
@@ -4589,7 +4583,6 @@ if __name__ == "__main__":
 # nationHouseBond -> 농어촌특별세
 # totalPrice -> 취득세 총 합계
 
-
 ## realtor -> 공인중개사 정보
 # realtorName -> 중개사무소 이름
 # representativeName -> 대표자 이름
@@ -4599,6 +4592,64 @@ if __name__ == "__main__":
 # cellPhoneNo -> 사무소 휴대전화번호
 # exposeTelTypeCode -> ???
 
+## location -> 지역 정보
+# cityName -> 시/도
+# divisionName -> 시/군/구
+# sectionName -> 읍/면/동
+# detailAddress -> 상세주소
+
+
+##################### 추려낸 결과
+## article -> 게시글 기본 정보
+# tradeCompleteYN -> 거래완료 YN
+# totalDongCount -> 동 수 (아파트)
+# exposureAddress -> 최종주소 (시/도 시/군/구 읍/면/동 xx리)
+# roomCount -> 방 수
+# bathroomCount -> 욕실 수
+# moveInTypeCode -> 입주가능일 코드
+# moveInTypeName -> 입주가능일
+# parkingCount -> 주차 대수
+# parkingPossibleYN -> 주차 가능 여부
+# floorLayerName -> 층 구조
+
+## addition -> 게시글 추가 정보
+# articleNo -> 글 번호
+# articleName -> 글 제목
+# realEstateTypeName -> 매물유형
+# articleRealEstateTypeName -> 건물용도
+# tradeTypeName -> 거래유형
+# floorInfo -> 층 정보
+# dealOrWarrantPrc -> 금액
+# area1 -> 공급면적
+# area2 -> 전용면적
+# articleConfirmYmd -> 게시일자
+# articleFeatureDesc -> 글 내용
+# tagList -> 태그 목록
+
+## price -> 각종 가격 정보 -> 거의 필요없는 정보
+# priceBySpace -> 평당 가격
+# rentPrice -> 월세???
+# dealPrice -> 거래가격
+# warrantPrice -> 보증금
+# allWarrantPrice -> 기보증금
+# financePrice -> 융자금
+# allRentPrice -> 월세
+
+## articleTax -> 세금정보
+# acquisitionTax -> 취득세
+# brokerFee -> 중개보수
+# maxBrokerFee -> 중개보수 상한 요율
+# eduTax -> 지방교육세
+# specialTax -> 농어촌특별세
+# totalPrice -> 세금 총 합계
+
+## realtor -> 공인중개사 정보
+# realtorName -> 중개사무소 이름
+# representativeName -> 대표자 이름
+# address -> 중개사무소 주소
+# establishRegistrationNo -> 중개사무소 등록번호
+# representativeTelNo -> 사무소 전화번호
+# cellPhoneNo -> 사무소 휴대전화번호
 
 ## location -> 지역 정보
 # cityName -> 시/도

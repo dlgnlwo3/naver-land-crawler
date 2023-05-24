@@ -203,7 +203,7 @@ class NaverLandAPI:
                 article_dict_list = cluster_dict["body"]
                 for i, article_dict in enumerate(article_dict_list):
                     articleList.append(article_dict)
-                time.sleep(3)
+                    time.sleep(2)
 
             # 400
             elif response.status_code == HTTPStatus.BAD_REQUEST:
