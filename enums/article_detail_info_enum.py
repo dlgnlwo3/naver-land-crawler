@@ -5,6 +5,7 @@ if 1 == 1:
     sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from enum import Enum
+from collections import OrderedDict
 
 
 class ArticleDetailInfoEnum(Enum):
@@ -4389,6 +4390,22 @@ class ArticleDetailInfoEnum(Enum):
 
 
 if __name__ == "__main__":
+    # dicts = [
+    #     ArticleDetailInfoEnum.건물.value,
+    #     ArticleDetailInfoEnum.공장창고.value,
+    #     ArticleDetailInfoEnum.단독다가구.value,
+    #     ArticleDetailInfoEnum.빌라.value,
+    #     ArticleDetailInfoEnum.사무실.value,
+    #     ArticleDetailInfoEnum.상가.value,
+    #     ArticleDetailInfoEnum.상가주택.value,
+    #     ArticleDetailInfoEnum.아파트.value,
+    #     ArticleDetailInfoEnum.오피스텔.value,
+    #     ArticleDetailInfoEnum.전원주택.value,
+    #     ArticleDetailInfoEnum.지식산업센터.value,
+    #     ArticleDetailInfoEnum.토지.value,
+    #     ArticleDetailInfoEnum.한옥주택.value,
+    # ]
+
     dicts = [
         ArticleDetailInfoEnum.건물.value["article"],
         ArticleDetailInfoEnum.공장창고.value["article"],
@@ -4410,4 +4427,88 @@ if __name__ == "__main__":
     for d in dicts[1:]:
         keys.intersection_update(d.keys())
 
-    print(keys)
+    result_keys = list(keys)
+
+    for result_key in result_keys:
+        print(result_key)
+
+
+# 하단은 모든 카테고리에서 공통으로 존재하는 key값만 추려낸 결과
+
+## 공통항목
+# buildingRegister
+# noneHscp
+# addition
+# articleHeaderSubTitle
+# location
+# schools
+# articleTax
+# articleSubTitle
+# redevelop
+# maintenanceCost
+# landPrice
+# oneroom
+# article
+# articleTitle
+# ground
+# floor
+# facility
+# articlePhotos
+# tabCategory
+# space
+# realtor
+# price
+# rebuild
+# isValidArticle
+# marketPrice
+# dealerTelInfo
+
+
+## article
+# articleNo -> 글 번호
+# articleName -> 글 제목
+# articleSubName -> ???
+# cpId -> 부동산 코드
+# cortarNo -> 지역 코드
+# tradeBuildingTypeCode -> 거래 타입 코드
+# exposeStartYMD -> 게시 시작일
+# exposeEndYMD -> 게시 종료일
+# articleConfirmYMD -> 게시 확인일
+# tradeCompleteYN -> 거래완료 YN
+# totalDongCount -> 동 수 (아파트?)
+# articleStatusCode -> 게시글 상태 코드
+# articleTypeCode -> 게시글 타입 코드
+# realestateTypeCode -> 매물유형
+# realestateTypeName -> 매물유형 이름
+# tradeTypeCode -> 거래유형
+# tradeTypeName -> 거래유형 이름
+# verificationTypeCode -> 검증유형
+# applyYN -> 적용여부 ???
+# directTradeYN -> 직접거래여부
+# mapLocationIndicationYn -> 지도 위치 표시 여부
+# latitude -> 좌표값
+# longitude -> 좌표값
+# cityNo -> 시/도 코드
+# cityName -> 시/도
+# divisionName -> 시/군/구
+# sectionName -> 읍/면/동
+# walkingTimeToNearSubway -> 도보 지하철역 시간
+# detailAddress -> 상세주소
+# exposureAddress -> 최종주소 (시/도 시/군/구 읍/면/동 xx리)
+# roomCount -> 방 수
+# bathroomCount -> 욕실 수
+# moveInTypeCode -> 입주가능일 코드
+# moveInTypeName -> 입주가능일
+# articleFeatureDescription -> 게시글 코멘트
+# parkingCount -> 주차 대수
+# parkingPossibleYN -> 주차 가능 여부
+# duplexYN -> ???
+# floorLayerName -> 층 정보
+# hasBuildingUnitInfo -> ???
+# tagList -> 태그 목록
+# isInterest -> ???
+# isFalseHoodDeclared -> ???
+# kisoConnectionYN -> ???
+# detailAddressYn -> 상세주소 존재 여부
+# isComplex -> ???
+# isOwnerTradeCompleted -> 집주인거래???
