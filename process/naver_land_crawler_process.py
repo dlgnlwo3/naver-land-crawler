@@ -68,55 +68,213 @@ class NaverLandCrawlerProcess:
 
         try:
             article_dto.totalDongCount = article_group["totalDongCount"]
-            article_dto.roomCount = article_group["roomCount"]
-            article_dto.bathroomCount = article_group["bathroomCount"]
-            article_dto.moveInTypeName = article_group["moveInTypeName"]
-            article_dto.parkingCount = article_group["parkingCount"]
-            article_dto.parkingPossibleYN = article_group["parkingPossibleYN"]
-            article_dto.floorLayerName = article_group["floorLayerName"]
-
-            article_dto.articleNo = addition_group["articleNo"]
-            article_dto.articleName = addition_group["articleName"]
-            article_dto.realEstateTypeName = addition_group["realEstateTypeName"]
-            article_dto.articleRealEstateTypeName = addition_group["articleRealEstateTypeName"]
-            article_dto.tradeTypeName = addition_group["tradeTypeName"]
-            article_dto.floorInfo = addition_group["floorInfo"]
-            article_dto.dealOrWarrantPrc = addition_group["dealOrWarrantPrc"]
-            article_dto.area1 = addition_group["area1"]
-            article_dto.area2 = addition_group["area2"]
-            article_dto.articleConfirmYmd = addition_group["articleConfirmYmd"]
-            article_dto.articleFeatureDesc = addition_group["articleFeatureDesc"]
-            article_dto.tagList = addition_group["tagList"]
-
-            article_dto.priceBySpace = price_group["priceBySpace"]
-            article_dto.rentPrice = price_group["rentPrice"]
-            article_dto.dealPrice = price_group["dealPrice"]
-            article_dto.warrantPrice = price_group["warrantPrice"]
-            article_dto.allWarrantPrice = price_group["allWarrantPrice"]
-            article_dto.financePrice = price_group["financePrice"]
-            article_dto.allRentPrice = price_group["allRentPrice"]
-
-            article_dto.acquisitionTax = articleTax_group["acquisitionTax"]
-            article_dto.brokerFee = articleTax_group["brokerFee"]
-            article_dto.maxBrokerFee = articleTax_group["maxBrokerFee"]
-            article_dto.eduTax = articleTax_group["eduTax"]
-            article_dto.specialTax = articleTax_group["specialTax"]
-            article_dto.totalPrice = articleTax_group["totalPrice"]
-
-            article_dto.realtorName = realtor_group["realtorName"]
-            article_dto.representativeName = realtor_group["representativeName"]
-            article_dto.address = realtor_group["address"]
-            article_dto.establishRegistrationNo = realtor_group["establishRegistrationNo"]
-            article_dto.representativeTelNo = realtor_group["representativeTelNo"]
-            article_dto.cellPhoneNo = realtor_group["cellPhoneNo"]
-
-            article_dto.cityName = location_group["cityName"]
-            article_dto.divisionName = location_group["divisionName"]
-            article_dto.sectionName = location_group["sectionName"]
-            article_dto.detailAddress = location_group["detailAddress"]
-
         except Exception as e:
-            print(str(e))
+            article_dto.totalDongCount = ""
+
+        try:
+            article_dto.roomCount = article_group["roomCount"]
+        except Exception as e:
+            article_dto.roomCount = ""
+
+        try:
+            article_dto.bathroomCount = article_group["bathroomCount"]
+        except Exception as e:
+            article_dto.bathroomCount = ""
+
+        try:
+            article_dto.moveInTypeName = article_group["moveInTypeName"]
+        except Exception as e:
+            article_dto.moveInTypeName = ""
+
+        try:
+            article_dto.parkingCount = article_group["parkingCount"]
+        except Exception as e:
+            article_dto.parkingCount = ""
+
+        try:
+            article_dto.parkingPossibleYN = article_group["parkingPossibleYN"]
+        except Exception as e:
+            article_dto.parkingPossibleYN = ""
+
+        try:
+            article_dto.floorLayerName = article_group["floorLayerName"]
+        except Exception as e:
+            article_dto.floorLayerName = ""
+
+        try:
+            article_dto.articleNo = addition_group["articleNo"]
+        except Exception as e:
+            article_dto.articleNo = ""
+
+        try:
+            article_dto.articleName = addition_group["articleName"]
+        except Exception as e:
+            article_dto.articleName = ""
+
+        try:
+            article_dto.realEstateTypeName = addition_group["realEstateTypeName"]
+        except Exception as e:
+            article_dto.realEstateTypeName = ""
+
+        try:
+            article_dto.articleRealEstateTypeName = addition_group["articleRealEstateTypeName"]
+        except Exception as e:
+            article_dto.articleRealEstateTypeName = ""
+
+        try:
+            article_dto.tradeTypeName = addition_group["tradeTypeName"]
+        except Exception as e:
+            article_dto.tradeTypeName = ""
+
+        try:
+            article_dto.floorInfo = addition_group["floorInfo"]
+        except Exception as e:
+            article_dto.floorInfo = ""
+
+        try:
+            article_dto.dealOrWarrantPrc = addition_group["dealOrWarrantPrc"]
+        except Exception as e:
+            article_dto.dealOrWarrantPrc = ""
+
+        try:
+            article_dto.area1 = addition_group["area1"]
+        except Exception as e:
+            article_dto.area1 = ""
+
+        try:
+            article_dto.area2 = addition_group["area2"]
+        except Exception as e:
+            article_dto.area2 = ""
+
+        try:
+            article_dto.articleConfirmYmd = addition_group["articleConfirmYmd"]
+        except Exception as e:
+            article_dto.articleConfirmYmd = ""
+
+        try:
+            article_dto.articleFeatureDesc = addition_group["articleFeatureDesc"]
+        except Exception as e:
+            article_dto.articleFeatureDesc = ""
+
+        try:
+            article_dto.tagList = addition_group["tagList"]
+        except Exception as e:
+            article_dto.tagList = ""
+
+        try:
+            article_dto.priceBySpace = price_group["priceBySpace"]
+        except Exception as e:
+            article_dto.priceBySpace = ""
+
+        try:
+            article_dto.rentPrice = price_group["rentPrice"]
+        except Exception as e:
+            article_dto.rentPrice = ""
+
+        try:
+            article_dto.dealPrice = price_group["dealPrice"]
+        except Exception as e:
+            article_dto.dealPrice = ""
+
+        try:
+            article_dto.warrantPrice = price_group["warrantPrice"]
+        except Exception as e:
+            article_dto.warrantPrice = ""
+
+        try:
+            article_dto.allWarrantPrice = price_group["allWarrantPrice"]
+        except Exception as e:
+            article_dto.allWarrantPrice = ""
+
+        try:
+            article_dto.financePrice = price_group["financePrice"]
+        except Exception as e:
+            article_dto.financePrice = ""
+
+        try:
+            article_dto.allRentPrice = price_group["allRentPrice"]
+        except Exception as e:
+            article_dto.allRentPrice = ""
+
+        try:
+            article_dto.acquisitionTax = articleTax_group["acquisitionTax"]
+        except Exception as e:
+            article_dto.acquisitionTax = ""
+
+        try:
+            article_dto.brokerFee = articleTax_group["brokerFee"]
+        except Exception as e:
+            article_dto.brokerFee = ""
+
+        try:
+            article_dto.maxBrokerFee = articleTax_group["maxBrokerFee"]
+        except Exception as e:
+            article_dto.maxBrokerFee = ""
+
+        try:
+            article_dto.eduTax = articleTax_group["eduTax"]
+        except Exception as e:
+            article_dto.eduTax = ""
+
+        try:
+            article_dto.specialTax = articleTax_group["specialTax"]
+        except Exception as e:
+            article_dto.specialTax = ""
+
+        try:
+            article_dto.totalPrice = articleTax_group["totalPrice"]
+        except Exception as e:
+            article_dto.totalPrice = ""
+
+        try:
+            article_dto.realtorName = realtor_group["realtorName"]
+        except Exception as e:
+            article_dto.realtorName = ""
+
+        try:
+            article_dto.representativeName = realtor_group["representativeName"]
+        except Exception as e:
+            article_dto.representativeName = ""
+
+        try:
+            article_dto.address = realtor_group["address"]
+        except Exception as e:
+            article_dto.address = ""
+
+        try:
+            article_dto.establishRegistrationNo = realtor_group["establishRegistrationNo"]
+        except Exception as e:
+            article_dto.establishRegistrationNo = ""
+
+        try:
+            article_dto.representativeTelNo = realtor_group["representativeTelNo"]
+        except Exception as e:
+            article_dto.representativeTelNo = ""
+
+        try:
+            article_dto.cellPhoneNo = realtor_group["cellPhoneNo"]
+        except Exception as e:
+            article_dto.cellPhoneNo = ""
+
+        try:
+            article_dto.cityName = location_group["cityName"]
+        except Exception as e:
+            article_dto.cityName = ""
+
+        try:
+            article_dto.divisionName = location_group["divisionName"]
+        except Exception as e:
+            article_dto.divisionName = ""
+
+        try:
+            article_dto.sectionName = location_group["sectionName"]
+        except Exception as e:
+            article_dto.sectionName = ""
+
+        try:
+            article_dto.detailAddress = location_group["detailAddress"]
+        except Exception as e:
+            article_dto.detailAddress = ""
 
         return article_dto
 
