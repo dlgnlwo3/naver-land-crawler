@@ -4422,20 +4422,36 @@ if __name__ == "__main__":
     #     ArticleDetailInfoEnum.한옥주택.value["article"],
     # ]
 
+    # dicts = [
+    #     ArticleDetailInfoEnum.건물.value["addition"],
+    #     ArticleDetailInfoEnum.공장창고.value["addition"],
+    #     ArticleDetailInfoEnum.단독다가구.value["addition"],
+    #     ArticleDetailInfoEnum.빌라.value["addition"],
+    #     ArticleDetailInfoEnum.사무실.value["addition"],
+    #     ArticleDetailInfoEnum.상가.value["addition"],
+    #     ArticleDetailInfoEnum.상가주택.value["addition"],
+    #     ArticleDetailInfoEnum.아파트.value["addition"],
+    #     ArticleDetailInfoEnum.오피스텔.value["addition"],
+    #     ArticleDetailInfoEnum.전원주택.value["addition"],
+    #     ArticleDetailInfoEnum.지식산업센터.value["addition"],
+    #     ArticleDetailInfoEnum.토지.value["addition"],
+    #     ArticleDetailInfoEnum.한옥주택.value["addition"],
+    # ]
+
     dicts = [
-        ArticleDetailInfoEnum.건물.value["addition"],
-        ArticleDetailInfoEnum.공장창고.value["addition"],
-        ArticleDetailInfoEnum.단독다가구.value["addition"],
-        ArticleDetailInfoEnum.빌라.value["addition"],
-        ArticleDetailInfoEnum.사무실.value["addition"],
-        ArticleDetailInfoEnum.상가.value["addition"],
-        ArticleDetailInfoEnum.상가주택.value["addition"],
-        ArticleDetailInfoEnum.아파트.value["addition"],
-        ArticleDetailInfoEnum.오피스텔.value["addition"],
-        ArticleDetailInfoEnum.전원주택.value["addition"],
-        ArticleDetailInfoEnum.지식산업센터.value["addition"],
-        ArticleDetailInfoEnum.토지.value["addition"],
-        ArticleDetailInfoEnum.한옥주택.value["addition"],
+        ArticleDetailInfoEnum.건물.value["location"],
+        ArticleDetailInfoEnum.공장창고.value["location"],
+        ArticleDetailInfoEnum.단독다가구.value["location"],
+        ArticleDetailInfoEnum.빌라.value["location"],
+        ArticleDetailInfoEnum.사무실.value["location"],
+        ArticleDetailInfoEnum.상가.value["location"],
+        ArticleDetailInfoEnum.상가주택.value["location"],
+        ArticleDetailInfoEnum.아파트.value["location"],
+        ArticleDetailInfoEnum.오피스텔.value["location"],
+        ArticleDetailInfoEnum.전원주택.value["location"],
+        ArticleDetailInfoEnum.지식산업센터.value["location"],
+        ArticleDetailInfoEnum.토지.value["location"],
+        ArticleDetailInfoEnum.한옥주택.value["location"],
     ]
 
     keys = set(dicts[0].keys())
@@ -4569,3 +4585,52 @@ if __name__ == "__main__":
 # isDirectTrade -> 직접거래 여부
 # isInterest -> ???
 # isComplex -> ???
+
+
+## facility -> 시설 관련 정보 -> 공통되는 내용이 이 두개밖에 없는데 그 마저도 기재되지 않은 물건이 많음
+# floorAreaRatio
+# buildingCoverageRatio
+
+## price -> 각종 가격 정보 -> 거의 필요없는 정보
+# priceBySpace -> 평당 가격
+# rentPrice -> 월세
+# dealPrice -> 가격
+# warrantPrice -> 보증금
+# allWarrantPrice -> ???
+# middlePayment -> ???
+# premiumPrice
+# financePrice
+# isalePrice
+# bondPrice
+# financeTypeCode
+# allRentPrice
+
+## articleTax -> 세금정보
+# acquisitionTax -> 취득세
+# registTax -> ???
+# registFee -> ???
+# brokerFee -> 중개보수
+# maxBrokerFee -> 중개보수 상한 요율
+# eduTax -> 지방교육세
+# specialTax -> ???
+# registApplyFee -> ???
+# digitalRevenuStamp -> ???
+# nationHouseBond -> 농어촌특별세
+# totalPrice -> 취득세 총 합계
+
+
+## realtor -> 공인중개사 정보
+# realtorName -> 중개사무소 이름
+# representativeName -> 대표자 이름
+# address -> 중개사무소 주소
+# establishRegistrationNo -> 중개사무소 등록번호
+# representativeTelNo -> 사무소 전화번호
+# cellPhoneNo -> 사무소 휴대전화번호
+# exposeTelTypeCode -> ???
+
+
+## location -> 지역 정보
+# cityName -> 시/도
+# divisionName -> 시/군/구
+# sectionName -> 읍/면/동
+# detailAddress -> 상세주소
