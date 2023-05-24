@@ -16,6 +16,7 @@ import asyncio
 import clipboard
 import re
 
+from common.utils import global_log_append
 from tenacity import retry, wait_fixed, stop_after_attempt
 
 import datetime
@@ -46,6 +47,7 @@ class NaverLandAPI:
         filter_dict = {}
         auth_url = f"https://m.land.naver.com/search/result/{search_keyword}"
         response = requests.get(auth_url, headers=self.headers)
+        time.sleep(1)
 
         # 200
         if response.status_code == HTTPStatus.OK:
@@ -61,29 +63,50 @@ class NaverLandAPI:
 
             print(filter_dict)
 
+        # 302
+        elif response.status_code == HTTPStatus.FOUND:
+            print(f"get_filter_dict_from_search_keyword {response.status_code}")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            script = soup.find("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
+            script_content = script.string
+            filter_value = re.search(r"filter:\s*{([^}]+)}", script_content).group(1)
+            for match in re.finditer(r"(\w+):\s*\'?([^\',]+)\'?", filter_value):
+                key = match.group(1)
+                value = match.group(2)
+                filter_dict[key] = value
+
+            print(filter_dict)
+
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             print("입력값이 유효하지 않음")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
 
         # 404
         elif response.status_code == HTTPStatus.NOT_FOUND:
             print("Request-URI에 일치하는 건을 발견하지 못함")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
 
         # 405
         elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
             print("허가되지 않은 메소드 사용")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
 
         # 500
         elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
             print("서버 내부의 에러")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
 
         # 503
         elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
             print("서버 과부하로 인한 사용 불가")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
 
         # 그 외의 경우
         else:
             print("알 수 없는 오류")
+            global_log_append(f"get_filter_dict_from_search_keyword {response.status_code}")
 
         return filter_dict
 
@@ -95,6 +118,7 @@ class NaverLandAPI:
         dvsn_list = []
         auth_url = f"https://new.land.naver.com/api/regions/list?cortarNo={cortarNo}"
         response = requests.get(auth_url, headers=self.headers)
+        time.sleep(1)
 
         # 200
         if response.status_code == HTTPStatus.OK:
@@ -103,31 +127,45 @@ class NaverLandAPI:
             dvsn_dict = json.loads(str(soup))
             print(dvsn_dict)
             dvsn_list = dvsn_dict["regionList"]
-            pass
+
+        # 302
+        elif response.status_code == HTTPStatus.FOUND:
+            print(f"{response.status_code}")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            dvsn_dict = json.loads(str(soup))
+            print(dvsn_dict)
+            dvsn_list = dvsn_dict["regionList"]
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             print("입력값이 유효하지 않음")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
 
         # 404
         elif response.status_code == HTTPStatus.NOT_FOUND:
             print("Request-URI에 일치하는 건을 발견하지 못함")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
 
         # 405
         elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
             print("허가되지 않은 메소드 사용")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
 
         # 500
         elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
             print("서버 내부의 에러")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
 
         # 503
         elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
             print("서버 과부하로 인한 사용 불가")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
 
         # 그 외의 경우
         else:
             print("알 수 없는 오류")
+            global_log_append(f"get_dvsn_list_from_cortarNo {response.status_code}")
 
         return dvsn_list
 
@@ -139,6 +177,7 @@ class NaverLandAPI:
         clusterList = []
         auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}"
         response = requests.get(auth_url, headers=self.headers)
+        time.sleep(1)
 
         # 200
         if response.status_code == HTTPStatus.OK:
@@ -146,31 +185,44 @@ class NaverLandAPI:
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             cluster_dict = json.loads(str(soup))
             clusterList = cluster_dict["data"]["ARTICLE"]
-            pass
+
+        # 302
+        elif response.status_code == HTTPStatus.FOUND:
+            print(f"{response.status_code}")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            cluster_dict = json.loads(str(soup))
+            clusterList = cluster_dict["data"]["ARTICLE"]
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             print("입력값이 유효하지 않음")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
 
         # 404
         elif response.status_code == HTTPStatus.NOT_FOUND:
             print("Request-URI에 일치하는 건을 발견하지 못함")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
 
         # 405
         elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
             print("허가되지 않은 메소드 사용")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
 
         # 500
         elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
             print("서버 내부의 에러")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
 
         # 503
         elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
             print("서버 과부하로 인한 사용 불가")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
 
         # 그 외의 경우
         else:
             print("알 수 없는 오류")
+            global_log_append(f"get_clusterList_from_cortar_info_and_type_code {response.status_code}")
 
         return clusterList
 
@@ -205,34 +257,50 @@ class NaverLandAPI:
                 for i, article_dict in enumerate(article_dict_list):
                     articleList.append(article_dict)
 
+            # 302
+            elif response.status_code == HTTPStatus.FOUND:
+                print(f"{response.status_code}")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
+                soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+                cluster_dict = json.loads(str(soup))
+                article_dict_list = cluster_dict["body"]
+                for i, article_dict in enumerate(article_dict_list):
+                    articleList.append(article_dict)
+
             # 400
             elif response.status_code == HTTPStatus.BAD_REQUEST:
                 print("입력값이 유효하지 않음")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
                 break
 
             # 404
             elif response.status_code == HTTPStatus.NOT_FOUND:
                 print("Request-URI에 일치하는 건을 발견하지 못함")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
                 break
 
             # 405
             elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
                 print("허가되지 않은 메소드 사용")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
                 break
 
             # 500
             elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
                 print("서버 내부의 에러")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
                 break
 
             # 503
             elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
                 print("서버 과부하로 인한 사용 불가")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
                 break
 
             # 그 외의 경우
             else:
                 print("알 수 없는 오류")
+                global_log_append(f"get_articleList_from_cluster_info {response.status_code}")
                 break
 
         return articleList
@@ -245,6 +313,7 @@ class NaverLandAPI:
         article_detail_info = {}
         auth_url = f"https://m.land.naver.com/article/info/{atclNo}?newMobile"
         response = requests.get(auth_url, headers=self.headers)
+        time.sleep(1)
 
         # 200
         if response.status_code == HTTPStatus.OK:
@@ -255,31 +324,47 @@ class NaverLandAPI:
             app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
             article_detail_dict = json.loads(app_value)
             article_detail_info = article_detail_dict["state"]["article"]
-            pass
+
+        # 302
+        elif response.status_code == HTTPStatus.FOUND:
+            print(f"{response.status_code}")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
+            soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
+            script = soup.find("script", text=re.compile(r"window.App"))
+            script_content = script.string
+            app_value = re.search(r"window.App=(\{.*\})", script_content).group(1)
+            article_detail_dict = json.loads(app_value)
+            article_detail_info = article_detail_dict["state"]["article"]
 
         # 400
         elif response.status_code == HTTPStatus.BAD_REQUEST:
             print("입력값이 유효하지 않음")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
 
         # 404
         elif response.status_code == HTTPStatus.NOT_FOUND:
             print("Request-URI에 일치하는 건을 발견하지 못함")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
 
         # 405
         elif response.status_code == HTTPStatus.METHOD_NOT_ALLOWED:
             print("허가되지 않은 메소드 사용")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
 
         # 500
         elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
             print("서버 내부의 에러")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
 
         # 503
         elif response.status_code == HTTPStatus.SERVICE_UNAVAILABLE:
             print("서버 과부하로 인한 사용 불가")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
 
         # 그 외의 경우
         else:
             print("알 수 없는 오류")
+            global_log_append(f"get_article_detail_info_from_atclNo {response.status_code}")
 
         return article_detail_info
 
