@@ -4601,9 +4601,7 @@ if __name__ == "__main__":
 
 ##################### 추려낸 결과
 ## article -> 게시글 기본 정보
-# tradeCompleteYN -> 거래완료 YN
 # totalDongCount -> 동 수 (아파트)
-# exposureAddress -> 최종주소 (시/도 시/군/구 읍/면/동 xx리)
 # roomCount -> 방 수
 # bathroomCount -> 욕실 수
 # moveInTypeCode -> 입주가능일 코드
