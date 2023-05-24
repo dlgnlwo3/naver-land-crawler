@@ -4467,35 +4467,6 @@ if __name__ == "__main__":
 
 # 하단은 모든 카테고리에서 공통으로 존재하는 key값만 추려낸 결과
 
-## 공통항목
-# buildingRegister
-# noneHscp
-# addition
-# articleHeaderSubTitle
-# location
-# schools
-# articleTax
-# articleSubTitle
-# redevelop
-# maintenanceCost
-# landPrice
-# oneroom
-# article
-# articleTitle
-# ground
-# floor
-# facility
-# articlePhotos
-# tabCategory
-# space
-# realtor
-# price
-# rebuild
-# isValidArticle
-# marketPrice
-# dealerTelInfo
-
-
 ## article -> 게시글 기본 정보
 # articleNo -> 글 번호
 # articleName -> 글 제목
