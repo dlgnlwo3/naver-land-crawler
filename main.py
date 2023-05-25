@@ -26,7 +26,7 @@ def my_exception_hook(exctype, value, traceback):
 
 sys.excepthook = my_exception_hook
 
-# pyinstaller -n "네이버 부동산 v0.0.4" -w --onefile --clean "main.py" --icon "assets\naver.ico"
+# pyinstaller -n "네이버 부동산 v0.0.5" -w --onefile --clean "main.py" --icon "assets\naver.ico"
 
 
 class MainUI(QWidget):
@@ -89,7 +89,7 @@ class MainUI(QWidget):
         self.setLayout(vbox)
 
         # 앱 기본 설정
-        self.setWindowTitle(f"네이버 부동산 v0.0.4")
+        self.setWindowTitle(f"네이버 부동산 v0.0.5")
         self.resize(700, 800)
         self.center()
         self.show()

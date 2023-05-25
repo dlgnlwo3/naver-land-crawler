@@ -405,6 +405,7 @@ class NaverLandCrawlerProcess:
 
         except Exception as e:
             print(e)
+            self.log_msg.emit(str(e))
 
 
 if __name__ == "__main__":
