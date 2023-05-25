@@ -101,14 +101,16 @@ class NaverLandCrawlerTab(QWidget):
 
     # 메인 UI
     def initUI(self):
-        # 지역
-        city_groupbox = QGroupBox("지역 선택")
+        # 시/도
+        city_groupbox = QGroupBox("시/도")
         self.city_combobox = QComboBox()
         self.city_combobox.addItems(CityEnum.list())
 
         city_inner_layout = QHBoxLayout()
         city_inner_layout.addWidget(self.city_combobox)
         city_groupbox.setLayout(city_inner_layout)
+
+        # 시/군/구
 
         # 거래유형
         tradTpCd_groupbox = QGroupBox("거래유형")
@@ -148,7 +150,7 @@ class NaverLandCrawlerTab(QWidget):
         rletTpCd_groupbox.setLayout(rletTpCd_inner_layout)
 
         # 시작 중지
-        start_stop_groupbox = QGroupBox("시작 중지")
+        start_stop_groupbox = QGroupBox("작업 시작")
         self.open_save_path_button = QPushButton("저장 경로 열기")
         self.naver_land_crawler_start_button = QPushButton("시작")
         self.naver_land_crawler_stop_button = QPushButton("중지")
