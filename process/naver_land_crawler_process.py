@@ -332,13 +332,22 @@ class NaverLandCrawlerProcess:
                 dvsn_lat = dvsn["centerLat"]
                 dvsn_lon = dvsn["centerLon"]
 
-                print(f"{i} {dvsn_cortarNo} {city_cortarName} {dvsn_cortarName} {dvsn_lat} {dvsn_lon}")
-                self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {self.guiDto.tradTpCd} {self.guiDto.rletTpCd}")
+                print(f"{i} / {dvsn_cortarNo} / {city_cortarName} {dvsn_cortarName} / {dvsn_lat} / {dvsn_lon}")
+                self.log_msg.emit(
+                    f"{city_cortarName} {dvsn_cortarName} / {self.guiDto.tradTpCd} / {self.guiDto.rletTpCd}"
+                )
 
                 filter_dict = asyncio.run(
                     APIBot.get_filter_dict_from_search_keyword(f"{city_cortarName} {dvsn_cortarName}")
                 )
-                dvsn_z = filter_dict["z"]
+
+                try:
+                    dvsn_z = filter_dict["z"]
+                except Exception as e:
+                    print(str(e))
+                    self.log_msg.emit(f"{dvsn_cortarName} 위치값 탐색에 실패했습니다.")
+                    continue
+
                 print(f"{dvsn_cortarNo} {dvsn_lat} {dvsn_lon} {dvsn_z} {rletTpCd} {tradTpCd}")
 
                 clusterList = asyncio.run(
@@ -389,6 +398,7 @@ class NaverLandCrawlerProcess:
                         if article_dto != None:
                             print(article_dto.detailAddress)
                             article_dtos.append(article_dto.get_dict())
+                            self.log_msg.emit(f"{atclNo} 확인")
 
                     self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
                     self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
