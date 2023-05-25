@@ -19,6 +19,9 @@ from enums.city_enum import CityEnum
 from enums.tradTpCd_enum import tradTpCdEnum
 from enums.rletTpCd_enum import rletTpCdEnum
 
+from api.naver_land_api import NaverLandAPI
+import asyncio
+
 
 import pandas as pd
 
@@ -26,8 +29,8 @@ import pandas as pd
 class NaverLandCrawlerTab(QWidget):
     # 초기화
     def __init__(self):
+        self.APIBot = NaverLandAPI()
         self.config = ProgramConfig()
-
         print(f"TODAY_OUTPUT_FOLDER: {self.config.today_output_folder}")
 
         super().__init__()
@@ -43,6 +46,10 @@ class NaverLandCrawlerTab(QWidget):
 
     # 시작 클릭
     def naver_land_crawler_start_button_clicked(self):
+        if self.dvsn_combobox.currentText() == "":
+            QMessageBox.information(self, "입력", f"시/군/구를 선택해주세요.")
+            return
+
         checked_tradTpCd = []
         print(self.tradTpCd_group)
         tradTpCd_checkbox: QCheckBox
@@ -67,6 +74,7 @@ class NaverLandCrawlerTab(QWidget):
 
         guiDto = GUIDto()
         guiDto.city = self.city_combobox.currentText()
+        guiDto.dvsn = self.dvsn_combobox.currentText()
         guiDto.tradTpCd = checked_tradTpCd
         guiDto.rletTpCd = checked_rletTpCd
 
@@ -77,6 +85,15 @@ class NaverLandCrawlerTab(QWidget):
 
         self.naver_land_crawler_start_button.setDisabled(True)
         self.naver_land_crawler_stop_button.setDisabled(False)
+        self.city_combobox.setDisabled(True)
+        self.dvsn_combobox.setDisabled(True)
+        rletTpCd_checkbox: QCheckBox
+        for rletTpCd_checkbox in self.rletTpCd_checkboxes_group:
+            rletTpCd_checkbox.setDisabled(True)
+        tradTpCd_checkbox: QCheckBox
+        for tradTpCd_checkbox in self.tradTpCd_checkboxes_group:
+            tradTpCd_checkbox.setDisabled(True)
+
         self.naver_land_crawler_thread.start()
 
     # 중지 클릭
@@ -94,10 +111,38 @@ class NaverLandCrawlerTab(QWidget):
         self.naver_land_crawler_thread.stop()
         self.naver_land_crawler_start_button.setDisabled(False)
         self.naver_land_crawler_stop_button.setDisabled(True)
+        self.city_combobox.setDisabled(False)
+        self.dvsn_combobox.setDisabled(False)
+        rletTpCd_checkbox: QCheckBox
+        for rletTpCd_checkbox in self.rletTpCd_checkboxes_group:
+            rletTpCd_checkbox.setDisabled(False)
+        tradTpCd_checkbox: QCheckBox
+        for tradTpCd_checkbox in self.tradTpCd_checkboxes_group:
+            tradTpCd_checkbox.setDisabled(False)
         print(f"thread_is_running: {self.naver_land_crawler_thread.isRunning()}")
 
     def open_save_path_button_clicked(self):
         os.startfile(self.config.today_output_folder)
+
+    def city_combobox_textChanged(self):
+        print(f"{self.city_combobox.currentText()}")
+        try:
+            dvsn_list = []
+            dvsn_list = asyncio.run(
+                self.APIBot.get_dvsn_list_from_cortarNo(
+                    getattr(CityEnum, self.city_combobox.currentText()).value["cortarNo"]
+                )
+            )
+            dvsn_list = [dict_dvsn["cortarName"] for dict_dvsn in dvsn_list]
+        except Exception as e:
+            self.log_append(f"시/군/구 정보 조회에 실패했습니다. 잠시 후 다시 시도해주세요.")
+            dvsn_list = []
+        self.set_dvsn_combobox(dvsn_list)
+
+    def set_dvsn_combobox(self, dvsn_list):
+        self.dvsn_combobox.clear()
+        for dvsn in dvsn_list:
+            self.dvsn_combobox.addItem(dvsn)
 
     # 메인 UI
     def initUI(self):
@@ -111,6 +156,15 @@ class NaverLandCrawlerTab(QWidget):
         city_groupbox.setLayout(city_inner_layout)
 
         # 시/군/구
+        dvsn_groupbox = QGroupBox("시/군/구")
+        self.dvsn_combobox = QComboBox()
+
+        self.city_combobox_textChanged()
+        self.city_combobox.currentTextChanged.connect(self.city_combobox_textChanged)
+
+        dvsn_inner_layout = QHBoxLayout()
+        dvsn_inner_layout.addWidget(self.dvsn_combobox)
+        dvsn_groupbox.setLayout(dvsn_inner_layout)
 
         # 거래유형
         tradTpCd_groupbox = QGroupBox("거래유형")
@@ -125,15 +179,6 @@ class NaverLandCrawlerTab(QWidget):
             self.tradTpCd_group.addButton(tradTpCd_checkbox)
             tradTpCd_inner_layout.addWidget(tradTpCd_checkbox)
         tradTpCd_groupbox.setLayout(tradTpCd_inner_layout)
-
-        # # 매물유형
-        # rletTpCd_groupbox = QGroupBox("매물유형")
-        # self.rletTpCd_combobox = QComboBox()
-        # self.rletTpCd_combobox.addItems(rletTpCdEnum.list())
-
-        # rletTpCd_inner_layout = QHBoxLayout()
-        # rletTpCd_inner_layout.addWidget(self.rletTpCd_combobox)
-        # rletTpCd_groupbox.setLayout(rletTpCd_inner_layout)
 
         # 매물유형
         rletTpCd_groupbox = QGroupBox("매물유형")
@@ -176,8 +221,9 @@ class NaverLandCrawlerTab(QWidget):
 
         # 레이아웃 배치
         top_layout = QHBoxLayout()
-        top_layout.addWidget(city_groupbox, 4)
-        top_layout.addStretch(6)
+        top_layout.addWidget(city_groupbox, 3)
+        top_layout.addWidget(dvsn_groupbox, 3)
+        top_layout.addStretch(4)
 
         mid_layout = QHBoxLayout()
         mid_layout.addWidget(tradTpCd_groupbox, 4)

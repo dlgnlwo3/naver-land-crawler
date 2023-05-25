@@ -8,6 +8,7 @@ if 1 == 1:
 class GUIDto:
     def __init__(self):
         self.__city = ""
+        self.__dvsn = ""
         self.__tradTpCd = ""
         self.__rletTpCd = ""
 
@@ -18,6 +19,14 @@ class GUIDto:
     @city.setter
     def city(self, value):  # setter
         self.__city = value
+
+    @property
+    def dvsn(self):  # getter
+        return self.__dvsn
+
+    @dvsn.setter
+    def dvsn(self, value):  # setter
+        self.__dvsn = value
 
     @property
     def tradTpCd(self):  # getter

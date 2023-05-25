@@ -306,13 +306,153 @@ class NaverLandCrawlerProcess:
         except Exception as e:
             print(e)
 
-    # 전체작업 시작
+    # # 시/도 단위만 선택
+    # def work_start(self):
+    #     try:
+    #         city_dict: dict = getattr(CityEnum, self.guiDto.city).value
+    #         rletTpCd = self.convert_rletTpCd()
+    #         tradTpCd = self.convert_tradTpCd()
+    #         print(city_dict)
+    #         city_cortarName = city_dict["cortarName"]
+    #         city_cortarNo = city_dict["cortarNo"]
+
+    #         APIBot = NaverLandAPI()
+
+    #         # 시/군/구 리스트
+    #         dvsn_list = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
+
+    #         print(dvsn_list)
+
+    #         appended_atclNo_list = []
+    #         for i, dvsn in enumerate(dvsn_list):
+    #             self.run_time = str(datetime.now())[0:-7].replace(":", "")
+    #             article_dtos = []
+
+    #             dvsn_cortarNo = dvsn["cortarNo"]
+    #             dvsn_cortarName = dvsn["cortarName"]
+    #             dvsn_lat = dvsn["centerLat"]
+    #             dvsn_lon = dvsn["centerLon"]
+
+    #             print(f"{i} / {dvsn_cortarNo} / {city_cortarName} {dvsn_cortarName} / {dvsn_lat} / {dvsn_lon}")
+    #             self.log_msg.emit(
+    #                 f"{city_cortarName} {dvsn_cortarName} / {self.guiDto.tradTpCd} / {self.guiDto.rletTpCd}"
+    #             )
+
+    #             filter_dict = asyncio.run(
+    #                 APIBot.get_filter_dict_from_search_keyword(f"{city_cortarName} {dvsn_cortarName}")
+    #             )
+
+    #             try:
+    #                 dvsn_z = filter_dict["z"]
+    #             except Exception as e:
+    #                 print(str(e))
+    #                 self.log_msg.emit(f"{dvsn_cortarName} 위치값 탐색에 실패했습니다.")
+    #                 continue
+
+    #             print(f"{dvsn_cortarNo} {dvsn_lat} {dvsn_lon} {dvsn_z} {rletTpCd} {tradTpCd}")
+
+    #             clusterList = asyncio.run(
+    #                 APIBot.get_clusterList_from_cortar_info_and_type_code(
+    #                     dvsn_cortarNo, dvsn_lat, dvsn_lon, dvsn_z, rletTpCd, tradTpCd
+    #                 )
+    #             )
+
+    #             for j, cluster in enumerate(clusterList):
+    #                 cluster_lgeo = cluster["lgeo"]
+    #                 cluster_count = cluster["count"]
+    #                 cluster_z = cluster["z"]
+    #                 cluster_lat = cluster["lat"]
+    #                 cluster_lon = cluster["lon"]
+    #                 cluster_max_page = self.get_cluster_max_page(cluster_count)
+
+    #                 self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
+
+    #                 if cluster_count <= 1:
+    #                     try:
+    #                         cluster_itemId = cluster["itemId"]
+
+    #                         if cluster_itemId in appended_atclNo_list:
+    #                             print(f"{cluster_itemId} 이미 확인된 매물입니다.")
+    #                             self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
+    #                             continue
+
+    #                         article_detail_info = asyncio.run(
+    #                             APIBot.get_article_detail_info_from_atclNo(cluster_itemId)
+    #                         )
+    #                         article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
+
+    #                         if article_dto != None:
+    #                             print(article_dto.detailAddress)
+    #                             article_dtos.append(article_dto.get_dict())
+    #                             appended_atclNo_list.append(cluster_itemId)
+    #                             self.log_msg.emit(f"{cluster_itemId} 확인")
+    #                         else:
+    #                             print(f"{cluster_itemId} 조회에 실패했습니다.")
+    #                             self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
+
+    #                         self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
+    #                         self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+
+    #                     except Exception as e:
+    #                         print(str(e))
+    #                         self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 조회에 실패했습니다.")
+
+    #                     finally:
+    #                         continue
+
+    #                 print(
+    #                     f"{cluster_lgeo} {cluster_z} {cluster_lat} {cluster_lon} {cluster_count} {cluster_max_page} {dvsn_cortarNo} {rletTpCd} {tradTpCd}"
+    #                 )
+
+    #                 articleList = asyncio.run(
+    #                     APIBot.get_articleList_from_cluster_info(
+    #                         cluster_lgeo,
+    #                         cluster_z,
+    #                         cluster_lat,
+    #                         cluster_lon,
+    #                         cluster_count,
+    #                         cluster_max_page,
+    #                         dvsn_cortarNo,
+    #                         rletTpCd,
+    #                         tradTpCd,
+    #                     )
+    #                 )
+
+    #                 for k, article in enumerate(articleList):
+    #                     atclNo = article["atclNo"]
+    #                     article_detail_info = {}
+    #                     article_dto = None
+
+    #                     if atclNo in appended_atclNo_list:
+    #                         print(f"{atclNo} 이미 확인된 매물입니다.")
+    #                         self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
+    #                         continue
+
+    #                     article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
+    #                     article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
+
+    #                     if article_dto != None:
+    #                         print(article_dto.detailAddress)
+    #                         article_dtos.append(article_dto.get_dict())
+    #                         appended_atclNo_list.append(atclNo)
+    #                         self.log_msg.emit(f"{atclNo} 확인")
+    #                     else:
+    #                         print(f"{atclNo} 조회에 실패했습니다.")
+    #                         self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
+
+    #                 self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
+    #                 self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+
+    #     except Exception as e:
+    #         print(e)
+    #         self.log_msg.emit(str(e))
+
+    # 시/군/구 단위까지 선택
     def work_start(self):
         try:
             city_dict: dict = getattr(CityEnum, self.guiDto.city).value
             rletTpCd = self.convert_rletTpCd()
             tradTpCd = self.convert_tradTpCd()
-            print(city_dict)
             city_cortarName = city_dict["cortarName"]
             city_cortarNo = city_dict["cortarNo"]
 
@@ -320,8 +460,6 @@ class NaverLandCrawlerProcess:
 
             # 시/군/구 리스트
             dvsn_list = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
-
-            print(dvsn_list)
 
             appended_atclNo_list = []
             for i, dvsn in enumerate(dvsn_list):
@@ -332,6 +470,10 @@ class NaverLandCrawlerProcess:
                 dvsn_cortarName = dvsn["cortarName"]
                 dvsn_lat = dvsn["centerLat"]
                 dvsn_lon = dvsn["centerLon"]
+
+                if dvsn_cortarName != self.guiDto.dvsn:
+                    print(f"{dvsn_cortarName} 생략")
+                    continue
 
                 print(f"{i} / {dvsn_cortarNo} / {city_cortarName} {dvsn_cortarName} / {dvsn_lat} / {dvsn_lon}")
                 self.log_msg.emit(
