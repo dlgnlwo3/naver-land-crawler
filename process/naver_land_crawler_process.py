@@ -323,6 +323,7 @@ class NaverLandCrawlerProcess:
 
             print(dvsn_list)
 
+            appended_atclNo_list = []
             for i, dvsn in enumerate(dvsn_list):
                 self.run_time = str(datetime.now())[0:-7].replace(":", "")
                 article_dtos = []
@@ -364,8 +365,40 @@ class NaverLandCrawlerProcess:
                     cluster_lon = cluster["lon"]
                     cluster_max_page = self.get_cluster_max_page(cluster_count)
 
+                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
+
                     if cluster_count <= 1:
-                        continue
+                        try:
+                            cluster_itemId = cluster["itemId"]
+
+                            if cluster_itemId in appended_atclNo_list:
+                                print(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                                self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                                continue
+
+                            article_detail_info = asyncio.run(
+                                APIBot.get_article_detail_info_from_atclNo(cluster_itemId)
+                            )
+                            article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
+
+                            if article_dto != None:
+                                print(article_dto.detailAddress)
+                                article_dtos.append(article_dto.get_dict())
+                                appended_atclNo_list.append(cluster_itemId)
+                                self.log_msg.emit(f"{cluster_itemId} 확인")
+                            else:
+                                print(f"{cluster_itemId} 조회에 실패했습니다.")
+                                self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
+
+                            self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
+                            self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+
+                        except Exception as e:
+                            print(str(e))
+                            self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 조회에 실패했습니다.")
+
+                        finally:
+                            continue
 
                     print(
                         f"{cluster_lgeo} {cluster_z} {cluster_lat} {cluster_lon} {cluster_count} {cluster_max_page} {dvsn_cortarNo} {rletTpCd} {tradTpCd}"
@@ -385,20 +418,27 @@ class NaverLandCrawlerProcess:
                         )
                     )
 
-                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
-
                     for k, article in enumerate(articleList):
                         atclNo = article["atclNo"]
                         article_detail_info = {}
                         article_dto = None
-                        article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
 
+                        if atclNo in appended_atclNo_list:
+                            print(f"{atclNo} 이미 확인된 매물입니다.")
+                            self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
+                            continue
+
+                        article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
                         article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
 
                         if article_dto != None:
                             print(article_dto.detailAddress)
                             article_dtos.append(article_dto.get_dict())
+                            appended_atclNo_list.append(atclNo)
                             self.log_msg.emit(f"{atclNo} 확인")
+                        else:
+                            print(f"{atclNo} 조회에 실패했습니다.")
+                            self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
 
                     self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
                     self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")

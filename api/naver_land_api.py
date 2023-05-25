@@ -196,6 +196,9 @@ class NaverLandAPI:
     async def get_clusterList_from_cortar_info_and_type_code(self, cortarNo, lat, lon, z, rletTpCd, tradTpCd):
         clusterList = []
         auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}"
+        # auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}&btm=37.6806746&lft=127.2274566&top=37.9215656&rgt=127.6133514&pCortarNo=12_4182000000"
+        # auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}&btm=37.7106761&lft=127.3166776&top=37.9514694&rgt=127.7025724&pCortarNo=12_4182000000"
+        # auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}&pCortarNo=12_4182000000"
         response = requests.get(auth_url, headers=self.get_headers())
         time.sleep(1)
 
