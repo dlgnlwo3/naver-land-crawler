@@ -5,24 +5,9 @@ if 1 == 1:
 
     sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
-from http import HTTPStatus
-from bs4 import BeautifulSoup
-import bcrypt
-import pybase64
-import requests
-import json
-import time
-import asyncio
-import clipboard
-import re
-
-from common.utils import global_log_append
-from tenacity import retry, wait_fixed, stop_after_attempt
 
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
-
-import datetime
 
 
 class RandomUserAgentTest:
@@ -47,4 +32,4 @@ class RandomUserAgentTest:
 
 
 if __name__ == "__main__":
-    tester = RandomUserAgentTest()
+    test = RandomUserAgentTest()
