@@ -39,12 +39,13 @@ class NaverLandAPI:
 
     def get_headers(self):
         self.get_user_agent()
-        self.headers = {
+        headers = {
             "User-Agent": self.user_agent,
             "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6",
             "Referer": "https://m.land.naver.com/",
         }
+        return headers
 
     @retry(
         wait=wait_fixed(3),  # 3초 대기
@@ -53,7 +54,7 @@ class NaverLandAPI:
     async def get_filter_dict_from_search_keyword(self, search_keyword):
         filter_dict = {}
         auth_url = f"https://m.land.naver.com/search/result/{search_keyword}"
-        response = requests.get(auth_url, headers=self.headers)
+        response = requests.get(auth_url, headers=self.get_headers())
         time.sleep(1)
 
         # 200
@@ -130,7 +131,7 @@ class NaverLandAPI:
     async def get_dvsn_list_from_cortarNo(self, cortarNo):
         dvsn_list = []
         auth_url = f"https://new.land.naver.com/api/regions/list?cortarNo={cortarNo}"
-        response = requests.get(auth_url, headers=self.headers)
+        response = requests.get(auth_url, headers=self.get_headers())
         time.sleep(1)
 
         # 200
@@ -195,7 +196,7 @@ class NaverLandAPI:
     async def get_clusterList_from_cortar_info_and_type_code(self, cortarNo, lat, lon, z, rletTpCd, tradTpCd):
         clusterList = []
         auth_url = f"https://m.land.naver.com/cluster/clusterList?view=atcl&cortarNo={cortarNo}&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={z}&lat={lat}&lon={lon}"
-        response = requests.get(auth_url, headers=self.headers)
+        response = requests.get(auth_url, headers=self.get_headers())
         time.sleep(1)
 
         # 200
@@ -270,7 +271,7 @@ class NaverLandAPI:
         articleList = []
         for i in range(1, cluster_max_page + 1):
             auth_url = f"https://m.land.naver.com/cluster/ajax/articleList?itemId={cluster_lgeo}&mapKey=&lgeo={cluster_lgeo}&showR0=&rletTpCd={rletTpCd}&tradTpCd={tradTpCd}&z={cluster_z}&lat={cluster_lat}&lon={cluster_lon}&totCnt={cluster_count}&cortarNo={dvsn_cortarNo}&page={i}"
-            response = requests.get(auth_url, headers=self.headers)
+            response = requests.get(auth_url, headers=self.get_headers())
             time.sleep(2)
 
             # 200
@@ -343,7 +344,7 @@ class NaverLandAPI:
     async def get_article_detail_info_from_atclNo(self, atclNo):
         article_detail_info = {}
         auth_url = f"https://m.land.naver.com/article/info/{atclNo}?newMobile"
-        response = requests.get(auth_url, headers=self.headers)
+        response = requests.get(auth_url, headers=self.get_headers())
         time.sleep(1)
 
         # 200
