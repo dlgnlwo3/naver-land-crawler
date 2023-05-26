@@ -16,6 +16,7 @@ from tabs.naver_land_crawler_tab import NaverLandCrawlerTab
 from tabs.naver_land_search_keyword_tab import NaverLandSearchKeywordTab
 from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest
 from configs.program_config import ProgramConfig
+from datetime import datetime
 
 
 # 오류 발생 시 프로그램 강제종료 방지
@@ -27,7 +28,7 @@ def my_exception_hook(exctype, value, traceback):
 
 sys.excepthook = my_exception_hook
 
-# pyinstaller -n "네이버 부동산 v0.1.0" -w --onefile --clean "main.py" --icon "assets\naver.ico" --add-data "venv\Lib\site-packages\random_user_agent;random_user_agent"
+# pyinstaller -n "네이버 부동산 v0.1.1" -w --onefile --clean "main.py" --icon "assets\naver.ico" --add-data "venv\Lib\site-packages\random_user_agent;random_user_agent"
 
 
 class MainUI(QWidget):
@@ -81,10 +82,17 @@ class MainUI(QWidget):
         self.naver_land_crawler_tab = NaverLandCrawlerTab()
         self.naver_land_search_keyword_tab = NaverLandSearchKeywordTab()
 
+        # 오늘 날짜, 현재 시간
+        today = datetime.now()
+        trial = datetime(2023, 5, 30)
+        print(f"today: {today}, trail: {trial}")
+
         # 탭 추가
         tabs = QTabWidget()
-        tabs.addTab(self.naver_land_crawler_tab, "지역검색")
-        tabs.addTab(self.naver_land_search_keyword_tab, "키워드검색")
+
+        if today <= trial:
+            tabs.addTab(self.naver_land_crawler_tab, "지역검색")
+            tabs.addTab(self.naver_land_search_keyword_tab, "키워드검색")
 
         vbox = QVBoxLayout()
 
@@ -92,7 +100,7 @@ class MainUI(QWidget):
         self.setLayout(vbox)
 
         # 앱 기본 설정
-        self.setWindowTitle(f"네이버 부동산 v0.1.0")
+        self.setWindowTitle(f"네이버 부동산 v0.1.1")
         self.resize(700, 800)
         self.center()
         self.show()
