@@ -46,9 +46,10 @@ class NaverLandCrawlerTab(QWidget):
 
     # 시작 클릭
     def naver_land_crawler_start_button_clicked(self):
-        if self.dvsn_combobox.currentText() == "":
-            QMessageBox.information(self, "입력", f"시/군/구를 선택해주세요.")
-            return
+        if self.dvsn_checkbox.isChecked():
+            if self.dvsn_combobox.currentText() == "":
+                QMessageBox.information(self, "입력", f"시/군/구를 선택해주세요.")
+                return
 
         checked_tradTpCd = []
         print(self.tradTpCd_group)
@@ -74,6 +75,7 @@ class NaverLandCrawlerTab(QWidget):
 
         guiDto = GUIDto()
         guiDto.city = self.city_combobox.currentText()
+        guiDto.dvsn_checkbox = self.dvsn_checkbox.isChecked()
         guiDto.dvsn = self.dvsn_combobox.currentText()
         guiDto.tradTpCd = checked_tradTpCd
         guiDto.rletTpCd = checked_rletTpCd
@@ -86,6 +88,7 @@ class NaverLandCrawlerTab(QWidget):
         self.naver_land_crawler_start_button.setDisabled(True)
         self.naver_land_crawler_stop_button.setDisabled(False)
         self.city_combobox.setDisabled(True)
+        self.dvsn_checkbox.setDisabled(True)
         self.dvsn_combobox.setDisabled(True)
         rletTpCd_checkbox: QCheckBox
         for rletTpCd_checkbox in self.rletTpCd_checkboxes_group:
@@ -112,6 +115,7 @@ class NaverLandCrawlerTab(QWidget):
         self.naver_land_crawler_start_button.setDisabled(False)
         self.naver_land_crawler_stop_button.setDisabled(True)
         self.city_combobox.setDisabled(False)
+        self.dvsn_checkbox.setDisabled(False)
         self.dvsn_combobox.setDisabled(False)
         rletTpCd_checkbox: QCheckBox
         for rletTpCd_checkbox in self.rletTpCd_checkboxes_group:
@@ -157,12 +161,14 @@ class NaverLandCrawlerTab(QWidget):
 
         # 시/군/구
         dvsn_groupbox = QGroupBox("시/군/구")
+        self.dvsn_checkbox = QCheckBox("시/군/구 단위 조회")
         self.dvsn_combobox = QComboBox()
 
         self.city_combobox_textChanged()
         self.city_combobox.currentTextChanged.connect(self.city_combobox_textChanged)
 
         dvsn_inner_layout = QHBoxLayout()
+        dvsn_inner_layout.addWidget(self.dvsn_checkbox)
         dvsn_inner_layout.addWidget(self.dvsn_combobox)
         dvsn_groupbox.setLayout(dvsn_inner_layout)
 

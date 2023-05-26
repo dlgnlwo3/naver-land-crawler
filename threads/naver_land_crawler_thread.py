@@ -45,7 +45,11 @@ class NaverLandCrawlerThread(QThread):
 
             process.setLogger(self.log_msg)
 
-            process.work_start()
+            if self.guiDto.dvsn_checkbox:
+                process.work_start_from_dvsn()
+
+            else:
+                process.work_start_from_city()
 
             end_time = timer()
 

@@ -8,8 +8,13 @@ if 1 == 1:
 class GUIDto:
     def __init__(self):
         self.__city = ""
+
+        self.__dvsn_checkbox = False
+
         self.__dvsn = ""
+
         self.__tradTpCd = ""
+
         self.__rletTpCd = ""
 
         self.__search_keyword = ""
@@ -21,6 +26,14 @@ class GUIDto:
     @city.setter
     def city(self, value):  # setter
         self.__city = value
+
+    @property
+    def dvsn_checkbox(self):  # getter
+        return self.__dvsn_checkbox
+
+    @dvsn_checkbox.setter
+    def dvsn_checkbox(self, value):  # setter
+        self.__dvsn_checkbox = value
 
     @property
     def dvsn(self):  # getter
