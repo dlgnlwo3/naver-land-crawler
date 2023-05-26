@@ -7,8 +7,6 @@ if 1 == 1:
 
 from http import HTTPStatus
 from bs4 import BeautifulSoup
-import bcrypt
-import pybase64
 import requests
 import json
 import time
@@ -22,7 +20,6 @@ from tenacity import retry, wait_fixed, stop_after_attempt
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
 
-import datetime
 
 from enums.city_enum import CityEnum
 

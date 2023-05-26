@@ -68,12 +68,77 @@ class NaverLandCrawlerProcess:
     def article_dto_from_article_detail_info(self, article_detail_info: dict):
         article_dto = ArticleDto()
 
-        article_group = article_detail_info["article"]
-        addition_group = article_detail_info["addition"]
-        price_group = article_detail_info["price"]
-        articleTax_group = article_detail_info["articleTax"]
-        realtor_group = article_detail_info["realtor"]
-        location_group = article_detail_info["location"]
+        try:
+            article_group = article_detail_info["article"]
+            # clipboard.copy(str(article_group))
+        except Exception as e:
+            article_group = {}
+
+        try:
+            addition_group = article_detail_info["addition"]
+            # clipboard.copy(str(addition_group))
+        except Exception as e:
+            addition_group = {}
+
+        try:
+            space_group = article_detail_info["space"]
+            # clipboard.copy(str(space_group))
+        except Exception as e:
+            space_group = {}
+
+        try:
+            facility_group = article_detail_info["facility"]
+            # clipboard.copy(str(facility_group))
+        except Exception as e:
+            facility_group = {}
+
+        try:
+            floor_group = article_detail_info["floor"]
+            # clipboard.copy(str(floor_group))
+        except Exception as e:
+            floor_group = {}
+
+        try:
+            price_group = article_detail_info["price"]
+            # clipboard.copy(str(price_group))
+        except Exception as e:
+            price_group = {}
+
+        try:
+            ground_group = article_detail_info["ground"]
+            # clipboard.copy(str(ground_group))
+        except Exception as e:
+            ground_group = {}
+
+        try:
+            buildingRegister_group = article_detail_info["buildingRegister"]
+            # clipboard.copy(str(buildingRegister_group))
+        except Exception as e:
+            buildingRegister_group = {}
+
+        try:
+            articleTax_group = article_detail_info["articleTax"]
+            # clipboard.copy(str(articleTax_group))
+        except Exception as e:
+            articleTax_group = {}
+
+        try:
+            realtor_group = article_detail_info["realtor"]
+            # clipboard.copy(str(realtor_group))
+        except Exception as e:
+            realtor_group = {}
+
+        try:
+            location_group = article_detail_info["location"]
+            # clipboard.copy(str(location_group))
+        except Exception as e:
+            location_group = {}
+
+        try:
+            articleTitle_group = article_detail_info["articleTitle"]
+            # clipboard.copy(str(articleTitle_group))
+        except Exception as e:
+            articleTitle_group = ""
 
         try:
             article_dto.totalDongCount = article_group["totalDongCount"]
@@ -169,6 +234,96 @@ class NaverLandCrawlerProcess:
             article_dto.tagList = addition_group["tagList"]
         except Exception as e:
             article_dto.tagList = ""
+
+        try:
+            article_dto.directionTypeName = facility_group["directionTypeName"]
+        except Exception as e:
+            article_dto.directionTypeName = ""
+
+        try:
+            article_dto.heatMethodTypeName = facility_group["heatMethodTypeName"]
+        except Exception as e:
+            article_dto.heatMethodTypeName = ""
+
+        try:
+            article_dto.heatFuelTypeName = facility_group["heatFuelTypeName"]
+        except Exception as e:
+            article_dto.heatFuelTypeName = ""
+
+        try:
+            article_dto.buildingUseAprvYmd = facility_group["buildingUseAprvYmd"]
+        except Exception as e:
+            article_dto.buildingUseAprvYmd = ""
+
+        try:
+            article_dto.allHoCnt = buildingRegister_group["allHoCnt"]
+        except Exception as e:
+            article_dto.allHoCnt = ""
+
+        try:
+            article_dto.mainPurpsCdNm = buildingRegister_group["mainPurpsCdNm"]
+        except Exception as e:
+            article_dto.mainPurpsCdNm = ""
+
+        try:
+            article_dto.strctCdNm = buildingRegister_group["strctCdNm"]
+        except Exception as e:
+            article_dto.strctCdNm = ""
+
+        try:
+            article_dto.jiyukNm = buildingRegister_group["jiyukNm"]
+        except Exception as e:
+            article_dto.jiyukNm = ""
+
+        try:
+            article_dto.generationUnit = buildingRegister_group["generationUnit"]
+        except Exception as e:
+            article_dto.generationUnit = ""
+
+        try:
+            article_dto.jiguNm = buildingRegister_group["jiguNm"]
+        except Exception as e:
+            article_dto.jiguNm = ""
+
+        try:
+            article_dto.guyukNm = buildingRegister_group["guyukNm"]
+        except Exception as e:
+            article_dto.guyukNm = ""
+
+        try:
+            article_dto.useAprDay = buildingRegister_group["useAprDay"]
+        except Exception as e:
+            article_dto.useAprDay = ""
+
+        try:
+            article_dto.elvtInfo = buildingRegister_group["elvtInfo"]
+        except Exception as e:
+            article_dto.elvtInfo = ""
+
+        try:
+            article_dto.etcParkInfo = buildingRegister_group["etcParkInfo"]
+        except Exception as e:
+            article_dto.etcParkInfo = ""
+
+        try:
+            article_dto.totalParkingCnt = buildingRegister_group["totalParkingCnt"]
+        except Exception as e:
+            article_dto.totalParkingCnt = ""
+
+        try:
+            article_dto.ugrndFlrCnt = buildingRegister_group["ugrndFlrCnt"]
+        except Exception as e:
+            article_dto.ugrndFlrCnt = ""
+
+        try:
+            article_dto.grndFlrCnt = buildingRegister_group["grndFlrCnt"]
+        except Exception as e:
+            article_dto.grndFlrCnt = ""
+
+        try:
+            article_dto.groundSpace = space_group["groundSpace"]
+        except Exception as e:
+            article_dto.groundSpace = ""
 
         try:
             article_dto.priceBySpace = price_group["priceBySpace"]
@@ -752,4 +907,3 @@ class NaverLandCrawlerProcess:
 
 if __name__ == "__main__":
     process = NaverLandCrawlerProcess()
-    process.work_start()

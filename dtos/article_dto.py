@@ -7,7 +7,7 @@ if 1 == 1:
 
 class ArticleDto:
     def __init__(self):
-        # article 그룹 7
+        # article 그룹
         self.__totalDongCount = ""  # 동 수(아파트)
         self.__roomCount = ""  # 방 수
         self.__bathroomCount = ""  # 욕실 수
@@ -16,7 +16,7 @@ class ArticleDto:
         self.__parkingPossibleYN = ""  # 주차 가능 여부
         self.__floorLayerName = ""  # 층 구조
 
-        # addition 그룹 12
+        # addition 그룹
         self.__articleNo = ""  # 매물번호
         self.__articleName = ""  # 매물제목
         self.__realEstateTypeName = ""  # 매물유형
@@ -30,16 +30,40 @@ class ArticleDto:
         self.__articleFeatureDesc = ""  # 글 내용
         self.__tagList = ""  # 태그목록
 
-        # price 그룹 -> 해당 그룹은 검토가 많이 필요함 7
+        # facility 그룹
+        self.__directionTypeName = ""  # 방향
+        self.__heatMethodTypeName = ""  # 난방방식
+        self.__heatFuelTypeName = ""  # 난방연료
+        self.__buildingUseAprvYmd = ""  # 사용승인일
+
+        # buildingRegister 그룹
+        self.__allHoCnt = ""  # 총세대수
+        self.__mainPurpsCdNm = ""  # 건축물용도
+        self.__strctCdNm = ""  # 주구조
+        self.__jiyukNm = ""  # 지역
+        self.__generationUnit = ""  # 세대단위
+        self.__jiguNm = ""  # 지구
+        self.__guyukNm = ""  # 구역
+        self.__useAprDay = ""  # 사용승인일
+        self.__elvtInfo = ""  # 엘리베이터
+        self.__etcParkInfo = ""  # 주차장
+        self.__totalParkingCnt = ""  # 주차장대수
+        self.__ugrndFlrCnt = ""  # 지하
+        self.__grndFlrCnt = ""  # 지상
+
+        # space 그룹
+        self.__groundSpace = ""  # 대지지분
+
+        # price 그룹
         self.__priceBySpace = ""  # 평당가격
-        self.__rentPrice = ""  # 월세??
+        self.__rentPrice = ""  # 월세 (없는 경우가 더 많음)
         self.__dealPrice = ""  # 거래가격
         self.__warrantPrice = ""  # 보증금
         self.__allWarrantPrice = ""  # 기보증금
         self.__financePrice = ""  # 융자금
-        self.__allRentPrice = ""  # 월세???
+        self.__allRentPrice = ""  # 월세
 
-        # articleTax 그룹 6
+        # articleTax 그룹
         self.__acquisitionTax = ""  # 취득세
         self.__brokerFee = ""  # 중개보수
         self.__maxBrokerFee = ""  # 중개보수 상한 요율
@@ -47,7 +71,7 @@ class ArticleDto:
         self.__specialTax = ""  # 농어촌특별세
         self.__totalPrice = ""  # 세금 총 합계
 
-        # realtor 그룹 6
+        # realtor 그룹
         self.__realtorName = ""  # 중개사무소 이름
         self.__representativeName = ""  # 중개사무소 대표자
         self.__address = ""  # 중개사무소 주소
@@ -55,11 +79,155 @@ class ArticleDto:
         self.__representativeTelNo = ""  # 중개사무소 전화번호
         self.__cellPhoneNo = ""  # 중개사무소 휴대전화번호
 
-        # location 그룹 4
+        # location 그룹
         self.__cityName = ""  # 시/도
         self.__divisionName = ""  # 시/군/구
         self.__sectionName = ""  # 읍/면/동
         self.__detailAddress = ""  # 상세주소
+
+    @property
+    def ugrndFlrCnt(self):  # getter
+        return self.__ugrndFlrCnt
+
+    @ugrndFlrCnt.setter
+    def ugrndFlrCnt(self, value):  # setter
+        self.__ugrndFlrCnt = value
+
+    @property
+    def grndFlrCnt(self):  # getter
+        return self.__grndFlrCnt
+
+    @grndFlrCnt.setter
+    def grndFlrCnt(self, value):  # setter
+        self.__grndFlrCnt = value
+
+    @property
+    def totalParkingCnt(self):  # getter
+        return self.__totalParkingCnt
+
+    @totalParkingCnt.setter
+    def totalParkingCnt(self, value):  # setter
+        self.__totalParkingCnt = value
+
+    @property
+    def etcParkInfo(self):  # getter
+        return self.__etcParkInfo
+
+    @etcParkInfo.setter
+    def etcParkInfo(self, value):  # setter
+        self.__etcParkInfo = value
+
+    @property
+    def elvtInfo(self):  # getter
+        return self.__elvtInfo
+
+    @elvtInfo.setter
+    def elvtInfo(self, value):  # setter
+        self.__elvtInfo = value
+
+    @property
+    def useAprDay(self):  # getter
+        return self.__useAprDay
+
+    @useAprDay.setter
+    def useAprDay(self, value):  # setter
+        self.__useAprDay = value
+
+    @property
+    def guyukNm(self):  # getter
+        return self.__guyukNm
+
+    @guyukNm.setter
+    def guyukNm(self, value):  # setter
+        self.__guyukNm = value
+
+    @property
+    def jiguNm(self):  # getter
+        return self.__jiguNm
+
+    @jiguNm.setter
+    def jiguNm(self, value):  # setter
+        self.__jiguNm = value
+
+    @property
+    def generationUnit(self):  # getter
+        return self.__generationUnit
+
+    @generationUnit.setter
+    def generationUnit(self, value):  # setter
+        self.__generationUnit = value
+
+    @property
+    def jiyukNm(self):  # getter
+        return self.__jiyukNm
+
+    @jiyukNm.setter
+    def jiyukNm(self, value):  # setter
+        self.__jiyukNm = value
+
+    @property
+    def strctCdNm(self):  # getter
+        return self.__strctCdNm
+
+    @strctCdNm.setter
+    def strctCdNm(self, value):  # setter
+        self.__strctCdNm = value
+
+    @property
+    def mainPurpsCdNm(self):  # getter
+        return self.__mainPurpsCdNm
+
+    @mainPurpsCdNm.setter
+    def mainPurpsCdNm(self, value):  # setter
+        self.__mainPurpsCdNm = value
+
+    @property
+    def allHoCnt(self):  # getter
+        return self.__allHoCnt
+
+    @allHoCnt.setter
+    def allHoCnt(self, value):  # setter
+        self.__allHoCnt = value
+
+    @property
+    def buildingUseAprvYmd(self):  # getter
+        return self.__buildingUseAprvYmd
+
+    @buildingUseAprvYmd.setter
+    def buildingUseAprvYmd(self, value):  # setter
+        self.__buildingUseAprvYmd = value
+
+    @property
+    def heatMethodTypeName(self):  # getter
+        return self.__heatMethodTypeName
+
+    @heatMethodTypeName.setter
+    def heatMethodTypeName(self, value):  # setter
+        self.__heatMethodTypeName = value
+
+    @property
+    def heatFuelTypeName(self):  # getter
+        return self.__heatFuelTypeName
+
+    @heatFuelTypeName.setter
+    def heatFuelTypeName(self, value):  # setter
+        self.__heatFuelTypeName = value
+
+    @property
+    def groundSpace(self):  # getter
+        return self.__groundSpace
+
+    @groundSpace.setter
+    def groundSpace(self, value):  # setter
+        self.__groundSpace = value
+
+    @property
+    def directionTypeName(self):  # getter
+        return self.__directionTypeName
+
+    @directionTypeName.setter
+    def directionTypeName(self, value):  # setter
+        self.__directionTypeName = value
 
     @property
     def totalDongCount(self):  # getter
@@ -403,45 +571,67 @@ class ArticleDto:
     def get_dict(self) -> dict:
         return {
             "게시일자": self.articleConfirmYmd,
-            "건물용도": self.articleRealEstateTypeName,
-            "매물제목": self.articleName,
+            "구분": self.articleRealEstateTypeName,
             "매물유형": self.realEstateTypeName,
+            "매물제목": self.articleName,
             "거래유형": self.tradeTypeName,
             "표시금액": self.dealOrWarrantPrc,
-            "거래가격": self.dealPrice,
             "평당가격": self.priceBySpace,
-            "태그목록": self.tagList,
-            "매물내용": self.articleFeatureDesc,
-            "공급면적": self.area1,
-            "전용면적": self.area2,
-            "기보증금": self.allWarrantPrice,
-            "보증금": self.warrantPrice,
-            "월세": self.allRentPrice,
-            "rentPrice": self.rentPrice,
-            "융자금": self.financePrice,
             "층 정보": self.floorInfo,
             "층 구조": self.floorLayerName,
-            "동 수": self.totalDongCount,
             "방 수": self.roomCount,
-            "욕실 수": self.bathroomCount,
-            "주차가능 수": self.parkingCount,
-            "주차가능 여부": self.parkingPossibleYN,
+            "향": self.directionTypeName,
+            "공급면적": self.area1,
+            "전용면적": self.area2,
+            "소재지": self.detailAddress,
+            "매물특징": self.articleFeatureDesc,
+            "공급/전용면적": f"{self.area1}/{self.area2}",
+            "해당층/총층": f"{self.floorInfo}층",
+            "대지지분": self.groundSpace,
+            "용적률/건폐율": f"",
+            "방수/욕실수": f"{self.roomCount}/{self.bathroomCount}",
+            "월관리비": f"원",
+            "관리비 포함": f"",
             "입주가능일": self.moveInTypeName,
+            "융자금": self.financePrice,
+            "기보증금/월세": f"{self.allWarrantPrice}/{self.allRentPrice}",
+            "방향": f"{self.directionTypeName}",
+            "주차가능여부": self.parkingPossibleYN,
+            "난방(방식/연료)": f"{self.heatMethodTypeName}/{self.heatFuelTypeName}",
+            "사용승인일": f"{self.buildingUseAprvYmd}",
+            "총세대수": self.allHoCnt,
+            "총주차대수": self.parkingCount,
+            "용도지역": f"",
+            "건축물 용도": self.mainPurpsCdNm,
+            "주구조": self.strctCdNm,
             "매물번호": self.articleNo,
+            "중개사 이름": self.realtorName,
+            "중개사 대표자": self.representativeName,
+            "중개사 등록번호": self.establishRegistrationNo,
+            "중개사 주소": self.address,
+            "중개사 전화번호": self.representativeTelNo,
+            "중개사 휴대전화번호": self.cellPhoneNo,
+            "중개보수": self.brokerFee,
+            "상한 요율": self.maxBrokerFee,
             "세금 합계": self.totalPrice,
             "취득세": self.acquisitionTax,
             "지방교육세": self.eduTax,
             "농어촌특별세": self.specialTax,
-            "중개보수": self.brokerFee,
-            "중개보수 상한 요율": self.maxBrokerFee,
-            "시/도": self.cityName,
-            "시/군/구": self.divisionName,
-            "읍/면/동": self.sectionName,
-            "상세주소": self.detailAddress,
-            "중개사무소 이름": self.realtorName,
-            "중개사무소 대표자": self.representativeName,
-            "중개사무소 주소": self.address,
-            "중개사무소 등록번호": self.establishRegistrationNo,
-            "중개사무소 전화번호": self.representativeTelNo,
-            "중개사무소 휴대전화번호": self.cellPhoneNo,
+            "주 용도": self.mainPurpsCdNm,
+            "총 세대": f"{self.allHoCnt}{self.generationUnit}",
+            "지역": self.jiyukNm,
+            "지구": self.jiguNm,
+            "구역": self.guyukNm,
+            "사용승인일": self.useAprDay,
+            "층정보": f"지하 {self.ugrndFlrCnt}층 / 지상 {self.grndFlrCnt}층",
+            "주구조": self.strctCdNm,
+            "주차장": f"총 {self.totalParkingCnt}대{self.etcParkInfo}",
+            "엘리베이터": f"{self.elvtInfo}",
+            # "시/도": self.cityName,
+            # "시/군/구": self.divisionName,
+            # "읍/면/동": self.sectionName,
+            # "동 수": self.totalDongCount,
+            # "욕실 수": self.bathroomCount,
+            # "거래가격": self.dealPrice,
+            # "태그목록": self.tagList,
         }
