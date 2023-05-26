@@ -288,11 +288,11 @@ class NaverLandCrawlerProcess:
         return article_dto
 
     # 엑셀 저장
-    def article_dtos_to_excel(self, city_cortarName, dvsn_cortarName, article_dtos):
+    def article_dtos_to_excel(self, city_cortarName, dvsn_cortarName, tradTpCd, rletTpCd, article_dtos):
         try:
             article_excel = os.path.join(
                 self.today_output_folder,
-                f"{self.run_time}_{city_cortarName}_{dvsn_cortarName}_{self.guiDto.tradTpCd}_{self.guiDto.rletTpCd}.xlsx",
+                f"{self.run_time}_{city_cortarName}_{dvsn_cortarName}_{tradTpCd}_{rletTpCd}.xlsx",
             )
 
             if os.path.isfile(article_excel):
@@ -532,7 +532,13 @@ class NaverLandCrawlerProcess:
                                 print(f"{cluster_itemId} 조회에 실패했습니다.")
                                 self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
 
-                            self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
+                            self.article_dtos_to_excel(
+                                city_cortarName,
+                                dvsn_cortarName,
+                                self.guiDto.tradTpCd,
+                                self.guiDto.rletTpCd,
+                                article_dtos,
+                            )
                             self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
 
                         except Exception as e:
@@ -582,8 +588,155 @@ class NaverLandCrawlerProcess:
                             print(f"{atclNo} 조회에 실패했습니다.")
                             self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
 
-                    self.article_dtos_to_excel(city_cortarName, dvsn_cortarName, article_dtos)
+                    self.article_dtos_to_excel(
+                        city_cortarName, dvsn_cortarName, self.guiDto.tradTpCd, self.guiDto.rletTpCd, article_dtos
+                    )
                     self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+
+        except Exception as e:
+            print(e)
+            self.log_msg.emit(str(e))
+
+    # 키워드로 검색
+    def work_start_from_keyword(self):
+        try:
+            APIBot = NaverLandAPI()
+
+            print(self.guiDto.search_keyword)
+
+            try:
+                filter_dict = asyncio.run(APIBot.get_filter_dict_from_search_keyword(self.guiDto.search_keyword))
+            except Exception as e:
+                print(str(e))
+                raise Exception(f"{self.guiDto.search_keyword} 유효한 검색어를 입력해주세요.")
+
+            try:
+                search_keyword_lat = filter_dict["lat"]
+                search_keyword_lon = filter_dict["lon"]
+                search_keyword_z = filter_dict["z"]
+                search_keyword_cortarNo = filter_dict["cortarNo"]
+                search_keyword_cortarNm = filter_dict["cortarNm"]
+                search_keyword_rletTpCds = filter_dict["rletTpCds"]
+                search_keyword_tradTpCds = filter_dict["tradTpCds"]
+            except Exception as e:
+                print(str(e))
+                raise Exception(f"{self.guiDto.search_keyword} 좌표 탐색에 실패했습니다.")
+
+            rletTpCds_key = next(
+                key for key, member in rletTpCdEnum.__members__.items() if member.value == search_keyword_rletTpCds
+            )
+            tradTpCds_key = next(
+                key for key, member in tradTpCdEnum.__members__.items() if member.value == search_keyword_tradTpCds
+            )
+
+            print(
+                f"{search_keyword_lat} {search_keyword_lon} {search_keyword_z} / {search_keyword_cortarNo} / {search_keyword_cortarNm} / {search_keyword_rletTpCds} / {search_keyword_tradTpCds}"
+            )
+            self.log_msg.emit(
+                f"{search_keyword_cortarNo} / {search_keyword_cortarNm} / {rletTpCds_key} / {tradTpCds_key}"
+            )
+
+            print()
+
+            clusterList = asyncio.run(
+                APIBot.get_clusterList_from_cortar_info_and_type_code(
+                    search_keyword_cortarNo,
+                    search_keyword_lat,
+                    search_keyword_lon,
+                    search_keyword_z,
+                    search_keyword_rletTpCds,
+                    search_keyword_tradTpCds,
+                )
+            )
+
+            appended_atclNo_list = []
+            self.run_time = str(datetime.now())[0:-7].replace(":", "")
+            article_dtos = []
+            for i, cluster in enumerate(clusterList):
+                cluster_lgeo = cluster["lgeo"]
+                cluster_count = cluster["count"]
+                cluster_z = cluster["z"]
+                cluster_lat = cluster["lat"]
+                cluster_lon = cluster["lon"]
+                cluster_max_page = self.get_cluster_max_page(cluster_count)
+
+                self.log_msg.emit(f"{search_keyword_cortarNm} {i+1}구역 {cluster_count}건 조회되었습니다.")
+
+                if cluster_count <= 1:
+                    try:
+                        cluster_itemId = cluster["itemId"]
+
+                        if cluster_itemId in appended_atclNo_list:
+                            print(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                            self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                            continue
+
+                        article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(cluster_itemId))
+                        article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
+
+                        if article_dto != None:
+                            print(article_dto.detailAddress)
+                            article_dtos.append(article_dto.get_dict())
+                            appended_atclNo_list.append(cluster_itemId)
+                            self.log_msg.emit(f"{cluster_itemId} 확인")
+                        else:
+                            print(f"{cluster_itemId} 조회에 실패했습니다.")
+                            self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
+
+                        self.article_dtos_to_excel(
+                            "", search_keyword_cortarNm, tradTpCds_key, rletTpCds_key, article_dtos
+                        )
+                        self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 {cluster_count}건 저장")
+
+                    except Exception as e:
+                        print(str(e))
+                        self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 조회에 실패했습니다.")
+
+                    finally:
+                        continue
+
+                print(
+                    f"{cluster_lgeo} {cluster_z} {cluster_lat} {cluster_lon} {cluster_count} {cluster_max_page} {search_keyword_cortarNo} {search_keyword_rletTpCds} {search_keyword_tradTpCds}"
+                )
+
+                articleList = asyncio.run(
+                    APIBot.get_articleList_from_cluster_info(
+                        cluster_lgeo,
+                        cluster_z,
+                        cluster_lat,
+                        cluster_lon,
+                        cluster_count,
+                        cluster_max_page,
+                        search_keyword_cortarNo,
+                        search_keyword_rletTpCds,
+                        search_keyword_tradTpCds,
+                    )
+                )
+
+                for j, article in enumerate(articleList):
+                    atclNo = article["atclNo"]
+                    article_detail_info = {}
+                    article_dto = None
+
+                    if atclNo in appended_atclNo_list:
+                        print(f"{atclNo} 이미 확인된 매물입니다.")
+                        self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
+                        continue
+
+                    article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
+                    article_dto: ArticleDto = self.article_dto_from_article_detail_info(article_detail_info)
+
+                    if article_dto != None:
+                        print(article_dto.detailAddress)
+                        article_dtos.append(article_dto.get_dict())
+                        appended_atclNo_list.append(atclNo)
+                        self.log_msg.emit(f"{atclNo} 확인")
+                    else:
+                        print(f"{atclNo} 조회에 실패했습니다.")
+                        self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
+
+                self.article_dtos_to_excel("키워드검색", search_keyword_cortarNm, tradTpCds_key, rletTpCds_key, article_dtos)
+                self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 {cluster_count}건 저장")
 
         except Exception as e:
             print(e)

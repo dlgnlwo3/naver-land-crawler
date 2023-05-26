@@ -432,17 +432,17 @@ if __name__ == "__main__":
     VL_atclNo = "2317652285"
     HANOK_atclNo = "2320930153"
 
+    search_keyword = "남양주시 다산동 오피스텔 전세"
+
     APIBot = NaverLandAPI()
 
     data = ""
 
     # data = asyncio.run(APIBot.get_article_detail_info_from_atclNo(HANOK_atclNo))
 
-    data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
+    # data = asyncio.run(APIBot.get_dvsn_list_from_cortarNo(city_cortarNo))
 
-    # {'cortarNo': '4131000000', 'centerLat': 37.594409, 'centerLon': 127.129581, 'cortarName': '구리시', 'cortarType': 'dvsn'}
-
-    # data = asyncio.run(APIBot.get_filter_dict_from_search_keyword(f"강원도 강릉시"))
+    data = asyncio.run(APIBot.get_filter_dict_from_search_keyword(search_keyword))
 
     print(type(data))
 
