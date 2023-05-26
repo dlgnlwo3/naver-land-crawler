@@ -255,6 +255,18 @@ class NaverLandCrawlerProcess:
         except Exception as e:
             article_dto.buildingUseAprvYmd = ""
 
+        # 건폐율
+        try:
+            article_dto.buildingCoverageRatio = facility_group["buildingCoverageRatio"]
+        except Exception as e:
+            article_dto.buildingCoverageRatio = ""
+
+        # 용적률
+        try:
+            article_dto.floorAreaRatio = facility_group["floorAreaRatio"]
+        except Exception as e:
+            article_dto.floorAreaRatio = ""
+
         try:
             article_dto.allHoCnt = buildingRegister_group["allHoCnt"]
         except Exception as e:
@@ -314,6 +326,36 @@ class NaverLandCrawlerProcess:
             article_dto.ugrndFlrCnt = buildingRegister_group["ugrndFlrCnt"]
         except Exception as e:
             article_dto.ugrndFlrCnt = ""
+
+        # 건축면적
+        try:
+            article_dto.archArea = buildingRegister_group["archArea"]
+        except Exception as e:
+            article_dto.archArea = ""
+
+        # 대지면적
+        try:
+            article_dto.platArea = buildingRegister_group["platArea"]
+        except Exception as e:
+            article_dto.platArea = ""
+
+        # 연면적
+        try:
+            article_dto.vlRatEstmTotArea = buildingRegister_group["vlRatEstmTotArea"]
+        except Exception as e:
+            article_dto.vlRatEstmTotArea = ""
+
+        # 건폐율
+        try:
+            article_dto.bcRat = buildingRegister_group["bcRat"]
+        except Exception as e:
+            article_dto.bcRat = ""
+
+        # 용적률
+        try:
+            article_dto.vlRat = buildingRegister_group["vlRat"]
+        except Exception as e:
+            article_dto.vlRat = ""
 
         try:
             article_dto.grndFlrCnt = buildingRegister_group["grndFlrCnt"]
