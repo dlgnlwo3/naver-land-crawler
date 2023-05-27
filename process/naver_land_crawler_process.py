@@ -569,7 +569,7 @@ class NaverLandCrawlerProcess:
 
                             if cluster_itemId in appended_atclNo_list:
                                 print(f"{cluster_itemId} 이미 확인된 매물입니다.")
-                                self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                                # self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
                                 continue
 
                             article_detail_info = asyncio.run(
@@ -627,7 +627,7 @@ class NaverLandCrawlerProcess:
 
                         if atclNo in appended_atclNo_list:
                             print(f"{atclNo} 이미 확인된 매물입니다.")
-                            self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
+                            # self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
                             continue
 
                         article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
@@ -719,7 +719,7 @@ class NaverLandCrawlerProcess:
 
                             if cluster_itemId in appended_atclNo_list:
                                 print(f"{cluster_itemId} 이미 확인된 매물입니다.")
-                                self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                                # self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
                                 continue
 
                             article_detail_info = asyncio.run(
@@ -777,7 +777,7 @@ class NaverLandCrawlerProcess:
 
                         if atclNo in appended_atclNo_list:
                             print(f"{atclNo} 이미 확인된 매물입니다.")
-                            self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
+                            # self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
                             continue
 
                         article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
@@ -872,7 +872,7 @@ class NaverLandCrawlerProcess:
 
                         if cluster_itemId in appended_atclNo_list:
                             print(f"{cluster_itemId} 이미 확인된 매물입니다.")
-                            self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
+                            # self.log_msg.emit(f"{cluster_itemId} 이미 확인된 매물입니다.")
                             continue
 
                         article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(cluster_itemId))
@@ -924,7 +924,7 @@ class NaverLandCrawlerProcess:
 
                     if atclNo in appended_atclNo_list:
                         print(f"{atclNo} 이미 확인된 매물입니다.")
-                        self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
+                        # self.log_msg.emit(f"{atclNo} 이미 확인된 매물입니다.")
                         continue
 
                     article_detail_info = asyncio.run(APIBot.get_article_detail_info_from_atclNo(atclNo))
