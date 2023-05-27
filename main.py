@@ -28,7 +28,7 @@ def my_exception_hook(exctype, value, traceback):
 
 sys.excepthook = my_exception_hook
 
-# pyinstaller -n "네이버 부동산 v0.1.2" -w --onefile --clean "main.py" --icon "assets\naver.ico" --add-data "venv\Lib\site-packages\random_user_agent;random_user_agent"
+# pyinstaller -n "네이버 부동산 v0.1.4" -w --onefile --clean "main.py" --icon "assets\naver.ico" --add-data "venv\Lib\site-packages\random_user_agent;random_user_agent"
 
 
 class MainUI(QWidget):
@@ -84,7 +84,7 @@ class MainUI(QWidget):
 
         # 오늘 날짜, 현재 시간
         today = datetime.now()
-        trial = datetime(2023, 5, 30)
+        trial = datetime(2023, 12, 30)
         print(f"today: {today}, trail: {trial}")
 
         # 탭 추가
@@ -93,6 +93,8 @@ class MainUI(QWidget):
         if today <= trial:
             tabs.addTab(self.naver_land_crawler_tab, "지역검색")
             tabs.addTab(self.naver_land_search_keyword_tab, "키워드검색")
+        # tabs.addTab(self.naver_land_crawler_tab, "지역검색")
+        # tabs.addTab(self.naver_land_search_keyword_tab, "키워드검색")
 
         vbox = QVBoxLayout()
 
@@ -100,7 +102,7 @@ class MainUI(QWidget):
         self.setLayout(vbox)
 
         # 앱 기본 설정
-        self.setWindowTitle(f"네이버 부동산 v0.1.1")
+        self.setWindowTitle(f"네이버 부동산 v0.1.4")
         self.resize(700, 800)
         self.center()
         self.show()

@@ -530,9 +530,9 @@ class NaverLandCrawlerProcess:
                 dvsn_lon = dvsn["centerLon"]
 
                 print(f"{i} / {dvsn_cortarNo} / {city_cortarName} {dvsn_cortarName} / {dvsn_lat} / {dvsn_lon}")
-                self.log_msg.emit(
-                    f"{city_cortarName} {dvsn_cortarName} / {self.guiDto.tradTpCd} / {self.guiDto.rletTpCd}"
-                )
+                # self.log_msg.emit(
+                #     f"{city_cortarName} {dvsn_cortarName} / {self.guiDto.tradTpCd} / {self.guiDto.rletTpCd}"
+                # )
 
                 filter_dict = asyncio.run(
                     APIBot.get_filter_dict_from_search_keyword(f"{city_cortarName} {dvsn_cortarName}")
@@ -542,7 +542,7 @@ class NaverLandCrawlerProcess:
                     dvsn_z = filter_dict["z"]
                 except Exception as e:
                     print(str(e))
-                    self.log_msg.emit(f"{dvsn_cortarName} 위치값 탐색에 실패했습니다.")
+                    # self.log_msg.emit(f"{dvsn_cortarName} 위치값 탐색에 실패했습니다.")
                     continue
 
                 print(f"{dvsn_cortarNo} {dvsn_lat} {dvsn_lon} {dvsn_z} {rletTpCd} {tradTpCd}")
@@ -561,7 +561,7 @@ class NaverLandCrawlerProcess:
                     cluster_lon = cluster["lon"]
                     cluster_max_page = self.get_cluster_max_page(cluster_count)
 
-                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
+                    # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
 
                     if cluster_count <= 1:
                         try:
@@ -581,10 +581,10 @@ class NaverLandCrawlerProcess:
                                 print(article_dto.detailAddress)
                                 article_dtos.append(article_dto.get_dict())
                                 appended_atclNo_list.append(cluster_itemId)
-                                self.log_msg.emit(f"{cluster_itemId} 확인")
+                                # self.log_msg.emit(f"{cluster_itemId} 확인")
                             else:
                                 print(f"{cluster_itemId} 조회에 실패했습니다.")
-                                self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
+                                # self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
 
                             self.article_dtos_to_excel(
                                 city_cortarName,
@@ -593,11 +593,11 @@ class NaverLandCrawlerProcess:
                                 self.guiDto.rletTpCd,
                                 article_dtos,
                             )
-                            self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+                            # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
 
                         except Exception as e:
                             print(str(e))
-                            self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 조회에 실패했습니다.")
+                            # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 조회에 실패했습니다.")
 
                         finally:
                             continue
@@ -637,19 +637,19 @@ class NaverLandCrawlerProcess:
                             print(article_dto.detailAddress)
                             article_dtos.append(article_dto.get_dict())
                             appended_atclNo_list.append(atclNo)
-                            self.log_msg.emit(f"{atclNo} 확인")
+                            # self.log_msg.emit(f"{atclNo} 확인")
                         else:
                             print(f"{atclNo} 조회에 실패했습니다.")
-                            self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
+                            # self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
 
                     self.article_dtos_to_excel(
                         city_cortarName, "전체", self.guiDto.tradTpCd, self.guiDto.rletTpCd, article_dtos
                     )
-                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+                    # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
 
         except Exception as e:
             print(e)
-            self.log_msg.emit(str(e))
+            # self.log_msg.emit(str(e))
 
     # 시/군/구 단위까지 선택
     def work_start_from_dvsn(self):
@@ -692,7 +692,7 @@ class NaverLandCrawlerProcess:
                     dvsn_z = filter_dict["z"]
                 except Exception as e:
                     print(str(e))
-                    self.log_msg.emit(f"{dvsn_cortarName} 위치값 탐색에 실패했습니다.")
+                    # self.log_msg.emit(f"{dvsn_cortarName} 위치값 탐색에 실패했습니다.")
                     continue
 
                 print(f"{dvsn_cortarNo} {dvsn_lat} {dvsn_lon} {dvsn_z} {rletTpCd} {tradTpCd}")
@@ -712,6 +712,7 @@ class NaverLandCrawlerProcess:
                     cluster_max_page = self.get_cluster_max_page(cluster_count)
 
                     self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 조회되었습니다.")
+                    self.log_msg.emit("검증시작")
 
                     if cluster_count <= 1:
                         try:
@@ -734,7 +735,7 @@ class NaverLandCrawlerProcess:
                                 self.log_msg.emit(f"{cluster_itemId} 확인")
                             else:
                                 print(f"{cluster_itemId} 조회에 실패했습니다.")
-                                self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
+                                # self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
 
                             self.article_dtos_to_excel(
                                 city_cortarName,
@@ -743,11 +744,11 @@ class NaverLandCrawlerProcess:
                                 self.guiDto.rletTpCd,
                                 article_dtos,
                             )
-                            self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+                            # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
 
                         except Exception as e:
                             print(str(e))
-                            self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 조회에 실패했습니다.")
+                            # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 조회에 실패했습니다.")
 
                         finally:
                             continue
@@ -790,16 +791,16 @@ class NaverLandCrawlerProcess:
                             self.log_msg.emit(f"{atclNo} 확인")
                         else:
                             print(f"{atclNo} 조회에 실패했습니다.")
-                            self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
+                            # self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
 
                     self.article_dtos_to_excel(
                         city_cortarName, dvsn_cortarName, self.guiDto.tradTpCd, self.guiDto.rletTpCd, article_dtos
                     )
-                    self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
+                    # self.log_msg.emit(f"{city_cortarName} {dvsn_cortarName} {j+1}구역 {cluster_count}건 저장")
 
         except Exception as e:
             print(e)
-            self.log_msg.emit(str(e))
+            # self.log_msg.emit(str(e))
 
     # 키워드로 검색
     def work_start_from_keyword(self):
@@ -836,9 +837,9 @@ class NaverLandCrawlerProcess:
             print(
                 f"{search_keyword_lat} {search_keyword_lon} {search_keyword_z} / {search_keyword_cortarNo} / {search_keyword_cortarNm} / {search_keyword_rletTpCds} / {search_keyword_tradTpCds}"
             )
-            self.log_msg.emit(
-                f"{search_keyword_cortarNo} / {search_keyword_cortarNm} / {rletTpCds_key} / {tradTpCds_key}"
-            )
+            # self.log_msg.emit(
+            #     f"{search_keyword_cortarNo} / {search_keyword_cortarNm} / {rletTpCds_key} / {tradTpCds_key}"
+            # )
 
             print()
 
@@ -865,6 +866,7 @@ class NaverLandCrawlerProcess:
                 cluster_max_page = self.get_cluster_max_page(cluster_count)
 
                 self.log_msg.emit(f"{search_keyword_cortarNm} {i+1}구역 {cluster_count}건 조회되었습니다.")
+                self.log_msg.emit("검증작업 시작")
 
                 if cluster_count <= 1:
                     try:
@@ -885,16 +887,16 @@ class NaverLandCrawlerProcess:
                             self.log_msg.emit(f"{cluster_itemId} 확인")
                         else:
                             print(f"{cluster_itemId} 조회에 실패했습니다.")
-                            self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
+                            # self.log_msg.emit(f"{cluster_itemId} 조회에 실패했습니다.")
 
                         self.article_dtos_to_excel(
                             "", search_keyword_cortarNm, tradTpCds_key, rletTpCds_key, article_dtos
                         )
-                        self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 {cluster_count}건 저장")
+                        # self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 {cluster_count}건 저장")
 
                     except Exception as e:
                         print(str(e))
-                        self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 조회에 실패했습니다.")
+                        # self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 조회에 실패했습니다.")
 
                     finally:
                         continue
@@ -937,7 +939,7 @@ class NaverLandCrawlerProcess:
                         self.log_msg.emit(f"{atclNo} 확인")
                     else:
                         print(f"{atclNo} 조회에 실패했습니다.")
-                        self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
+                        # self.log_msg.emit(f"{atclNo} 조회에 실패했습니다.")
 
                 self.article_dtos_to_excel("키워드검색", search_keyword_cortarNm, tradTpCds_key, rletTpCds_key, article_dtos)
                 self.log_msg.emit(f"{'키워드검색'} {search_keyword_cortarNm} {i+1}구역 {cluster_count}건 저장")
