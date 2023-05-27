@@ -28,7 +28,7 @@ def my_exception_hook(exctype, value, traceback):
 
 sys.excepthook = my_exception_hook
 
-# pyinstaller -n "네이버 부동산 v0.1.1" -w --onefile --clean "main.py" --icon "assets\naver.ico" --add-data "venv\Lib\site-packages\random_user_agent;random_user_agent"
+# pyinstaller -n "네이버 부동산 v0.1.2" -w --onefile --clean "main.py" --icon "assets\naver.ico" --add-data "venv\Lib\site-packages\random_user_agent;random_user_agent"
 
 
 class MainUI(QWidget):

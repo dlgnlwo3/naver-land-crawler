@@ -16,7 +16,7 @@ from timeit import default_timer as timer
 
 from process.naver_land_crawler_process import NaverLandCrawlerProcess
 
-import debugpy
+# import debugpy
 
 
 class NaverLandSearchKeywordThread(QThread):
@@ -33,7 +33,7 @@ class NaverLandSearchKeywordThread(QThread):
 
     def run(self):
         try:
-            debugpy.debug_this_thread()
+            # debugpy.debug_this_thread()
 
             self.log_msg.emit(f"시작")
 
