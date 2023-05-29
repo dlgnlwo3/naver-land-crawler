@@ -59,7 +59,6 @@ class NaverLandSearchKeywordTab(QWidget):
             self.naver_land_search_keyword_finished
         )
         self.naver_land_search_keyword_thread.setGuiDto(guiDto)
-
         self.naver_land_search_keyword_start_button.setDisabled(True)
         self.naver_land_search_keyword_stop_button.setDisabled(False)
         self.naver_land_search_keyword_thread.start()

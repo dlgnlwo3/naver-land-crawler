@@ -24,8 +24,8 @@ class ArticleDto:
         self.__tradeTypeName = ""  # 거래유형
         self.__floorInfo = ""  # 층 정보
         self.__dealOrWarrantPrc = ""  # 금액 (한글)
-        self.__area1 = ""  # 공급면적
-        self.__area2 = ""  # 전용면적
+        self.__area1 = ""  # 대지면적
+        self.__area2 = ""  # 연면적
         self.__articleConfirmYmd = ""  # 게시일자
         self.__articleFeatureDesc = ""  # 글 내용
         self.__tagList = ""  # 태그목록
@@ -35,6 +35,8 @@ class ArticleDto:
         self.__heatMethodTypeName = ""  # 난방방식
         self.__heatFuelTypeName = ""  # 난방연료
         self.__buildingUseAprvYmd = ""  # 사용승인일
+        self.__buildingCoverageRatio = ""  # 매물정보/건폐율
+        self.__floorAreaRatio = ""  # 매물정보/용적률
 
         # buildingRegister 그룹
         self.__allHoCnt = ""  # 총세대수
@@ -50,6 +52,11 @@ class ArticleDto:
         self.__totalParkingCnt = ""  # 주차장대수
         self.__ugrndFlrCnt = ""  # 지하
         self.__grndFlrCnt = ""  # 지상
+        self.__archArea = ""  # 건축면적
+        self.__platArea = ""  # 대지면적
+        self.__vlRatEstmTotArea = ""  # 연면적
+        self.__bcRat = ""  # 건폐율
+        self.__vlRat = ""  # 용적률
 
         # space 그룹
         self.__groundSpace = ""  # 대지지분
@@ -92,6 +99,62 @@ class ArticleDto:
     @ugrndFlrCnt.setter
     def ugrndFlrCnt(self, value):  # setter
         self.__ugrndFlrCnt = value
+
+    @property
+    def bcRat(self):  # getter
+        return self.__bcRat
+
+    @bcRat.setter
+    def bcRat(self, value):  # setter
+        self.__bcRat = value
+
+    @property
+    def vlRat(self):  # getter
+        return self.__vlRat
+
+    @vlRat.setter
+    def vlRat(self, value):  # setter
+        self.__vlRat = value
+
+    @property
+    def vlRatEstmTotArea(self):  # getter
+        return self.__vlRatEstmTotArea
+
+    @vlRatEstmTotArea.setter
+    def vlRatEstmTotArea(self, value):  # setter
+        self.__vlRatEstmTotArea = value
+
+    @property
+    def platArea(self):  # getter
+        return self.__platArea
+
+    @platArea.setter
+    def platArea(self, value):  # setter
+        self.__platArea = value
+
+    @property
+    def archArea(self):  # getter
+        return self.__archArea
+
+    @archArea.setter
+    def archArea(self, value):  # setter
+        self.__archArea = value
+
+    @property
+    def floorAreaRatio(self):  # getter
+        return self.__floorAreaRatio
+
+    @floorAreaRatio.setter
+    def floorAreaRatio(self, value):  # setter
+        self.__floorAreaRatio = value
+
+    @property
+    def buildingCoverageRatio(self):  # getter
+        return self.__buildingCoverageRatio
+
+    @buildingCoverageRatio.setter
+    def buildingCoverageRatio(self, value):  # setter
+        self.__buildingCoverageRatio = value
 
     @property
     def grndFlrCnt(self):  # getter
@@ -581,14 +644,14 @@ class ArticleDto:
             "층 구조": self.floorLayerName,
             "방 수": self.roomCount,
             "향": self.directionTypeName,
-            "공급면적": self.area1,
-            "전용면적": self.area2,
+            "대지면적": self.area1,
+            "연면적": self.area2,
             "소재지": self.detailAddress,
             "매물특징": self.articleFeatureDesc,
-            "공급/전용면적": f"{self.area1}/{self.area2}",
+            "대지/연면적": f"{self.area1}/{self.area2}",
             "해당층/총층": f"{self.floorInfo}층",
             "대지지분": self.groundSpace,
-            "용적률/건폐율": f"",
+            "용적률/건폐율": f"{self.buildingCoverageRatio}/{self.floorAreaRatio}",
             "방수/욕실수": f"{self.roomCount}/{self.bathroomCount}",
             "월관리비": f"원",
             "관리비 포함": f"",
@@ -627,6 +690,11 @@ class ArticleDto:
             "주구조": self.strctCdNm,
             "주차장": f"총 {self.totalParkingCnt}대{self.etcParkInfo}",
             "엘리베이터": f"{self.elvtInfo}",
+            "건축면적": f"{self.archArea}",
+            "대지면적_2": f"{self.platArea}",
+            "연면적_2": f"{self.vlRatEstmTotArea}",
+            "건폐율": f"{self.bcRat}",
+            "용적률": f"{self.vlRat}",
             # "시/도": self.cityName,
             # "시/군/구": self.divisionName,
             # "읍/면/동": self.sectionName,
