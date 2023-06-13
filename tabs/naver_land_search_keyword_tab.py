@@ -12,8 +12,8 @@ from threads.naver_land_search_keyword_thread import NaverLandSearchKeywordThrea
 from dtos.gui_dto import GUIDto
 from common.utils import *
 
-from configs.coupang_review_crawler_config import CoupangReviewCrawlerConfig
-from configs.coupang_review_crawler_config import CoupangReviewCrawlerData
+from configs.naver_land_crawler_config import NaverLandCrawlerConfig
+from configs.naver_land_crawler_config import NaverLandCrawlerData
 
 from enums.city_enum import CityEnum
 from enums.tradTpCd_enum import tradTpCdEnum

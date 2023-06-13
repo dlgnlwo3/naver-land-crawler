@@ -8,7 +8,7 @@ from mimetypes import MimeTypes
 class ProgramConfig:
     def __init__(self):
         self.company_name = "consolework"
-        self.program_id = "coupang-review-crawler"
+        self.program_id = "naver-land-crawler"
         self.output_folder_name = "output"
         self.encoding = "utf-8"
         self.app_data_path = os.path.join(os.getenv("APPDATA"), self.company_name)

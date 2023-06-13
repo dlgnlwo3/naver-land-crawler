@@ -9,7 +9,7 @@ import json
 from configs.program_config import ProgramConfig
 
 
-class CoupangReviewCrawlerData:
+class NaverLandCrawlerData:
     def __init__(self):
         self.excel_path = ""
 
@@ -21,8 +21,8 @@ class CoupangReviewCrawlerData:
         return members
 
 
-class CoupangReviewCrawlerConfig(ProgramConfig):
-    config_name = "coupang_review_crawler"
+class NaverLandCrawlerConfig(ProgramConfig):
+    config_name = "naver_land_crawler"
 
     def __init__(self):
         ProgramConfig.__init__(self)
@@ -32,7 +32,7 @@ class CoupangReviewCrawlerConfig(ProgramConfig):
     # # 저장정보
     def init_data(self):
         # 저장데이터 없는 경우 초기화
-        member_datas = CoupangReviewCrawlerData().__member__()
+        member_datas = NaverLandCrawlerData().__member__()
         saved_data = self.get_data()
         new_write_data = {}
 
@@ -47,7 +47,7 @@ class CoupangReviewCrawlerConfig(ProgramConfig):
 
         self.write_data(new_write_data)
 
-    def data_to_dict(self, data: CoupangReviewCrawlerData) -> dict:
+    def data_to_dict(self, data: NaverLandCrawlerData) -> dict:
         member_datas = data.__member__()
         dict_data = {}
 
@@ -57,8 +57,8 @@ class CoupangReviewCrawlerConfig(ProgramConfig):
 
         return dict_data
 
-    def dict_to_data(self, data: dict) -> CoupangReviewCrawlerData:
-        newData = CoupangReviewCrawlerData()
+    def dict_to_data(self, data: dict) -> NaverLandCrawlerData:
+        newData = NaverLandCrawlerData()
         for key in data.keys():
             newData.__setattr__(key, data[key])
         return newData
@@ -80,7 +80,7 @@ class CoupangReviewCrawlerConfig(ProgramConfig):
             with open(self.save_path, "r", encoding=self.encoding) as f:
                 saved_data = json.loads(f.read())
 
-        member_datas = CoupangReviewCrawlerData().__member__()
+        member_datas = NaverLandCrawlerData().__member__()
         for member in member_datas:
             if not member in saved_data.keys():
                 # 초기화
@@ -92,7 +92,7 @@ class CoupangReviewCrawlerConfig(ProgramConfig):
 
 
 if __name__ == "__main__":
-    addData = CoupangReviewCrawlerData()
-    CoupangReviewCrawlerConfig = CoupangReviewCrawlerConfig()
-    dict_data = CoupangReviewCrawlerConfig.data_to_dict(addData)
+    addData = NaverLandCrawlerData()
+    NaverLandCrawlerConfig = NaverLandCrawlerConfig()
+    dict_data = NaverLandCrawlerConfig.data_to_dict(addData)
     print(dict_data)

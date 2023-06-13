@@ -8,8 +8,8 @@ if 1 == 1:
 from dtos.gui_dto import GUIDto
 from dtos.article_dto import ArticleDto
 
-from configs.coupang_review_crawler_config import CoupangReviewCrawlerConfig
-from configs.coupang_review_crawler_config import CoupangReviewCrawlerData
+from configs.naver_land_crawler_config import NaverLandCrawlerConfig
+from configs.naver_land_crawler_config import NaverLandCrawlerData
 
 
 from common.utils import global_log_append
