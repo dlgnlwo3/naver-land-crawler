@@ -58,7 +58,7 @@ class NaverLandAPI:
         if response.status_code == HTTPStatus.OK:
             print("filter_dict 획득 성공")
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
-            script = soup.find("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
+            script = soup.find_all("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
             script_content = script.string
             filter_value = re.search(r"filter:\s*{([^}]+)}", script_content).group(1)
             for match in re.finditer(r"(\w+):\s*\'?([^\',]+)\'?", filter_value):

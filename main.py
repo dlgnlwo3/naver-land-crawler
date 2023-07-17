@@ -84,7 +84,7 @@ class MainUI(QWidget):
 
         # 오늘 날짜, 현재 시간
         today = datetime.now()
-        trial = datetime(2023, 12, 30)
+        trial = datetime(2099, 12, 31)
         print(f"today: {today}, trail: {trial}")
 
         # 탭 추가
