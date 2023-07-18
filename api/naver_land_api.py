@@ -59,7 +59,7 @@ class NaverLandAPI:
             print("filter_dict 획득 성공")
             soup = BeautifulSoup(response.content, "html.parser", from_encoding="utf-8")
             script = soup.find_all("script", {"type": "text/javascript"}, text=re.compile(r"filter:\s*{([^}]+)}"))
-            script_content = script.string
+            script_content = script[0].string
             filter_value = re.search(r"filter:\s*{([^}]+)}", script_content).group(1)
             for match in re.finditer(r"(\w+):\s*\'?([^\',]+)\'?", filter_value):
                 key = match.group(1)
